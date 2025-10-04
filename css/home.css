@@ -63,17 +63,24 @@
 .hero-right {
     position: relative;
     animation: slideInRight 1s ease forwards;
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* Dashboard Mockup */
 .dashboard-mockup {
     background: var(--card-bg);
     border-radius: 20px;
-    padding: 2rem;
+    padding: 1.5rem;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
     border: 3px solid rgba(255, 255, 255, 0.15);
     transform: rotate(-2deg);
     transition: transform 0.3s ease;
+    max-width: 450px;
+    width: 100%;
+    margin: 0 auto;
 }
 
 .dashboard-mockup:hover {
@@ -118,23 +125,27 @@
 }
 
 .mockup-content {
-    padding: 2rem;
+    padding: 1.5rem;
+    min-height: 200px;
+    max-height: 250px;
 }
 
 .project-card {
     background: var(--card-bg);
     border-radius: 12px;
-    padding: 1.5rem;
+    padding: 1rem;
     border: 1px solid rgba(255, 255, 255, 0.1);
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100%;
+    min-height: 150px;
+    max-height: 200px;
 }
 
 .dashboard-logo {
-    max-width: 100%;
-    max-height: 100%;
+    max-width: 200px;
+    max-height: 150px;
     width: auto;
     height: auto;
     object-fit: contain;
@@ -362,7 +373,25 @@
     .dashboard-mockup {
         transform: none;
         margin: 0 auto;
-        max-width: 400px;
+        max-width: 350px;
+        padding: 1rem;
+    }
+    
+    .mockup-content {
+        padding: 1rem;
+        min-height: 150px;
+        max-height: 180px;
+    }
+    
+    .project-card {
+        padding: 0.75rem;
+        min-height: 120px;
+        max-height: 150px;
+    }
+    
+    .dashboard-logo {
+        max-width: 150px;
+        max-height: 100px;
     }
     
     .stats-grid {
