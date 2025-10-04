@@ -1,0 +1,64 @@
+<!-- Google Analytics and Search Console Setup Instructions -->
+<!-- 
+To complete your SEO setup, follow these steps:
+
+1. GOOGLE ANALYTICS 4 (GA4) SETUP:
+   - Go to https://analytics.google.com/
+   - Create a new property for your website
+   - Get your GA4 Measurement ID (looks like G-XXXXXXXXXX)
+   - Replace 'GA_MEASUREMENT_ID' below with your actual ID
+   - Add this code to the <head> section of ALL your HTML pages
+
+2. GOOGLE SEARCH CONSOLE SETUP:
+   - Go to https://search.google.com/search-console/
+   - Add your property: https://siddu-k.github.io/sriox_landingpage/
+   - Verify ownership using the HTML tag method
+   - Submit your sitemap: https://siddu-k.github.io/sriox_landingpage/sitemap.xml
+
+3. BING WEBMASTER TOOLS:
+   - Go to https://www.bing.com/webmasters/
+   - Add your site and verify ownership
+   - Submit your sitemap
+
+GOOGLE ANALYTICS CODE TO ADD:
+-->
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GA_MEASUREMENT_ID');
+</script>
+
+<!--
+GOOGLE SEARCH CONSOLE VERIFICATION:
+Replace 'your-verification-code' with the actual code from Search Console
+Add this meta tag to the <head> section of your index.html:
+-->
+<meta name="google-site-verification" content="your-verification-code" />
+
+<!--
+ADDITIONAL SEO IMPROVEMENTS COMPLETED:
+
+✅ Comprehensive meta tags (title, description, keywords)
+✅ Open Graph tags for social media sharing
+✅ Twitter Card meta tags
+✅ Proper favicon setup (all sizes)
+✅ Canonical URLs to prevent duplicate content
+✅ Robots.txt file for search engine crawling
+✅ XML sitemap with all pages
+✅ Progressive Web App manifest
+✅ Structured data (JSON-LD) for rich snippets
+✅ Theme colors and mobile optimization
+✅ Performance optimizations (preconnect, etc.)
+
+NEXT STEPS:
+1. Set up Google Analytics and Search Console
+2. Monitor your site's performance in search results
+3. Regularly update your sitemap with new content
+4. Optimize page loading speed
+5. Create quality content and build backlinks
+-->

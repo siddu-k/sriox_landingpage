@@ -1,0 +1,42 @@
+User-agent: *
+Allow: /
+
+# Allow all search engines to crawl the entire site
+Allow: /index.html
+Allow: /about.html
+Allow: /services.html
+Allow: /how-it-works.html
+Allow: /certificate.html
+Allow: /testimonials.html
+Allow: /apply.html
+Allow: /job-detail.html
+Allow: /privacy-policy.html
+Allow: /terms.html
+Allow: /intern-policy.html
+
+# Allow crawling of assets
+Allow: /css/
+Allow: /js/
+Allow: /assets/
+
+# Disallow admin and debug pages
+Disallow: /dashboard.html
+Disallow: /new-dashboard.html
+Disallow: /debug-firebase.html
+Disallow: /admin-setup.html
+
+# Disallow configuration and sensitive files
+Disallow: /*.js$
+Disallow: /*.json$
+Disallow: /*.md$
+Disallow: /*.txt$
+
+# Allow specific important files
+Allow: /robots.txt
+Allow: /sitemap.xml
+
+# Sitemap location
+Sitemap: https://siddu-k.github.io/sriox_landingpage/sitemap.xml
+
+# Crawl delay (optional - be respectful to servers)
+Crawl-delay: 1

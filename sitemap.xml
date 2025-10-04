@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <!-- Main Pages -->
+    <url>
+        <loc>https://siddu-k.github.io/sriox_landingpage/</loc>
+        <lastmod>2025-10-04</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>1.0</priority>
+    </url>
+    
+    <url>
+        <loc>https://siddu-k.github.io/sriox_landingpage/about.html</loc>
+        <lastmod>2025-10-04</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://siddu-k.github.io/sriox_landingpage/services.html</loc>
+        <lastmod>2025-10-04</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <url>
+        <loc>https://siddu-k.github.io/sriox_landingpage/how-it-works.html</loc>
+        <lastmod>2025-10-04</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    
+    <url>
+        <loc>https://siddu-k.github.io/sriox_landingpage/certificate.html</loc>
+        <lastmod>2025-10-04</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    
+    <url>
+        <loc>https://siddu-k.github.io/sriox_landingpage/testimonials.html</loc>
+        <lastmod>2025-10-04</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    
+    <!-- Career Pages -->
+    <url>
+        <loc>https://siddu-k.github.io/sriox_landingpage/apply.html</loc>
+        <lastmod>2025-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://siddu-k.github.io/sriox_landingpage/job-detail.html</loc>
+        <lastmod>2025-10-04</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.7</priority>
+    </url>
+    
+    <!-- Legal Pages -->
+    <url>
+        <loc>https://siddu-k.github.io/sriox_landingpage/privacy-policy.html</loc>
+        <lastmod>2025-10-04</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.3</priority>
+    </url>
+    
+    <url>
+        <loc>https://siddu-k.github.io/sriox_landingpage/terms.html</loc>
+        <lastmod>2025-10-04</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.3</priority>
+    </url>
+    
+    <url>
+        <loc>https://siddu-k.github.io/sriox_landingpage/intern-policy.html</loc>
+        <lastmod>2025-10-04</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.4</priority>
+    </url>
+</urlset>
