@@ -1,0 +1,77 @@
+// Firestore Security Rules for Sriox Careers Dashboard
+// Copy these rules to your Firebase Console > Firestore Database > Rules
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Jobs Collection Rules
+    match /jobs/{jobId} {
+      // Allow read access to all users (for public job listings)
+      allow read: if true;
+      
+      // Allow write/update/delete for development - TEMPORARY RULE
+      // TODO: Implement proper authentication for production
+      allow write, update, delete: if true;
+      
+      // Allow create without validation for development
+      allow create: if true;
+    }
+    
+    // Applications Collection Rules
+    match /applications/{applicationId} {
+      // Allow all operations for development - TEMPORARY RULE
+      allow read, write, create, update, delete: if true;
+    }
+    
+    // Admin Settings Collection (for dashboard configuration)
+    match /admin_settings/{settingId} {
+      // Allow full access for development - TEMPORARY RULE
+      // TODO: Restrict to authenticated admin in production
+      allow read, write: if true;
+    }
+    
+    // Analytics Collection (for tracking dashboard metrics)
+    match /analytics/{docId} {
+      // Allow full access for development - TEMPORARY RULE
+      // TODO: Restrict read/write to admin, create to public in production
+      allow read, write, create: if true;
+    }
+    
+    // Helper functions for data validation
+    function validateJobData(data) {
+      return data.keys().hasAll(['title', 'department', 'location', 'type', 'description', 'requirements', 'isActive', 'createdAt'])
+        && data.title is string && data.title.size() > 0 && data.title.size() <= 200
+        && data.department is string && data.department in ['engineering', 'marketing', 'sales', 'hr', 'finance', 'operations']
+        && data.location is string && data.location.size() > 0 && data.location.size() <= 100
+        && data.type is string && data.type in ['full-time', 'part-time', 'contract', 'internship']
+        && data.description is string && data.description.size() > 0 && data.description.size() <= 5000
+        && data.requirements is string && data.requirements.size() > 0 && data.requirements.size() <= 3000
+        && data.isActive is bool
+        && data.createdAt is timestamp;
+    }
+    
+    function validateApplicationData(data) {
+      return data.keys().hasAll(['name', 'email', 'jobId', 'jobTitle', 'appliedAt'])
+        && data.name is string && data.name.size() > 0 && data.name.size() <= 100
+        && data.email is string && data.email.matches('.*@.*\\..*')
+        && data.jobId is string && data.jobId.size() > 0
+        && data.jobTitle is string && data.jobTitle.size() > 0 && data.jobTitle.size() <= 200
+        && data.appliedAt is timestamp
+        && (!data.keys().hasAny(['phone']) || (data.phone is string && data.phone.size() <= 20))
+        && (!data.keys().hasAny(['status']) || data.status in ['pending', 'reviewed', 'shortlisted', 'rejected', 'hired']);
+    }
+    
+    function onlyAllowedApplicationFields(newData, existingData) {
+      // Only allow admin to update status, notes, and review fields
+      return newData.diff(existingData).affectedKeys().hasOnly(['status', 'adminNotes', 'reviewedAt', 'reviewedBy'])
+        && (!newData.keys().hasAny(['status']) || newData.status in ['pending', 'reviewed', 'shortlisted', 'rejected', 'hired']);
+    }
+    
+    function validateAnalyticsData(data) {
+      return data.keys().hasAll(['event', 'timestamp'])
+        && data.event is string && data.event.size() > 0 && data.event.size() <= 100
+        && data.timestamp is timestamp;
+    }
+  }
+}

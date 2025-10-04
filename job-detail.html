@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="job-title-head">Job Details - Sriox</title>
+    <meta name="description" content="Join the Sriox team and build your career in technology and education">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/favicons/favicon.ico">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/careers.css">
+    <link rel="stylesheet" href="css/job-detail.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html">
+                    <img src="assets/icons/logosriox.png" alt="Sriox Logo" class="nav-logo-img" height="40">
+                </a>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="about.html" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="services.html" class="nav-link">Services</a>
+                </li>
+                <li class="nav-item">
+                    <a href="apply.html" class="nav-link">Careers</a>
+                </li>
+                <li class="nav-item">
+                    <a href="testimonials.html" class="nav-link">Testimonials</a>
+                </li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <i class="fas fa-briefcase loading-icon"></i>
+            <h3>Loading Job Details...</h3>
+            <div class="loading-spinner"></div>
+        </div>
+    </div>
+
+    <!-- Job Not Found -->
+    <div id="job-not-found" class="job-not-found" style="display: none;">
+        <div class="container">
+            <div class="not-found-content">
+                <i class="fas fa-exclamation-triangle"></i>
+                <h2>Job Not Found</h2>
+                <p>The job posting you're looking for doesn't exist or has been removed.</p>
+                <a href="apply.html" class="btn btn-primary">View All Jobs</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Job Detail Content -->
+    <main id="job-detail-content" class="job-detail-page" style="display: none;">
+        <!-- Breadcrumb -->
+        <section class="breadcrumb-section">
+            <div class="container">
+                <nav class="breadcrumb">
+                    <a href="index.html">Home</a>
+                    <span class="separator">/</span>
+                    <a href="apply.html">Careers</a>
+                    <span class="separator">/</span>
+                    <span id="breadcrumb-job-title">Job Details</span>
+                </nav>
+            </div>
+        </section>
+
+        <!-- Job Header -->
+        <section class="job-header">
+            <div class="container">
+                <div class="job-header-content">
+                    <div class="job-basic-info">
+                        <h1 id="job-title">Loading...</h1>
+                        <div class="job-meta">
+                            <span class="job-department" id="job-department">
+                                <i class="fas fa-building"></i>
+                                <span>Loading...</span>
+                            </span>
+                            <span class="job-type" id="job-type">
+                                <i class="fas fa-clock"></i>
+                                <span>Loading...</span>
+                            </span>
+                            <span class="job-location" id="job-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Loading...</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="job-actions">
+                        <button id="apply-now-btn" class="btn btn-primary btn-large">
+                            <i class="fas fa-paper-plane"></i>
+                            Apply Now
+                        </button>
+                        <button id="share-job-btn" class="btn btn-secondary">
+                            <i class="fas fa-share-alt"></i>
+                            Share Job
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Job Content -->
+        <section class="job-content">
+            <div class="container">
+                <div class="job-content-grid">
+                    <!-- Main Content -->
+                    <div class="job-main-content">
+                        <div class="job-section">
+                            <h2><i class="fas fa-info-circle"></i> Job Description</h2>
+                            <div id="job-description" class="job-description">
+                                Loading job description...
+                            </div>
+                        </div>
+
+                        <div class="job-section">
+                            <h2><i class="fas fa-list-check"></i> Requirements</h2>
+                            <div id="job-requirements" class="job-requirements">
+                                Loading requirements...
+                            </div>
+                        </div>
+
+                        <div class="job-section" id="job-benefits-section" style="display: none;">
+                            <h2><i class="fas fa-gift"></i> Benefits</h2>
+                            <div id="job-benefits" class="job-benefits">
+                                Loading benefits...
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sidebar -->
+                    <div class="job-sidebar">
+                        <div class="job-info-card">
+                            <h3><i class="fas fa-briefcase"></i> Job Information</h3>
+                            <div class="job-info-item">
+                                <label>Department:</label>
+                                <span id="sidebar-department">Loading...</span>
+                            </div>
+                            <div class="job-info-item">
+                                <label>Employment Type:</label>
+                                <span id="sidebar-type">Loading...</span>
+                            </div>
+                            <div class="job-info-item">
+                                <label>Location:</label>
+                                <span id="sidebar-location">Loading...</span>
+                            </div>
+                            <div class="job-info-item" id="salary-info" style="display: none;">
+                                <label>Salary:</label>
+                                <span id="sidebar-salary">Loading...</span>
+                            </div>
+                            <div class="job-info-item">
+                                <label>Posted:</label>
+                                <span id="sidebar-posted">Loading...</span>
+                            </div>
+                            <div class="job-info-item" id="deadline-info" style="display: none;">
+                                <label>Application Deadline:</label>
+                                <span id="sidebar-deadline">Loading...</span>
+                            </div>
+                        </div>
+
+                        <div class="apply-card">
+                            <h3><i class="fas fa-user-plus"></i> Ready to Apply?</h3>
+                            <p>Join our team and help shape the future of technology and education.</p>
+                            <button id="sidebar-apply-btn" class="btn btn-primary btn-full">
+                                <i class="fas fa-paper-plane"></i>
+                                Apply for This Position
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Application Modal -->
+    <div id="application-modal" class="modal" style="display: none;">
+        <div class="modal-content application-modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-user-plus"></i> Apply for <span id="modal-job-title">Position</span></h2>
+                <button class="close-modal" id="close-application-modal">&times;</button>
+            </div>
+            
+            <form id="application-form" class="application-form">
+                <input type="hidden" id="application-job-id" name="jobId">
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="applicant-name">Full Name *</label>
+                        <input type="text" id="applicant-name" name="name" required placeholder="Enter your full name">
+                    </div>
+                    <div class="form-group">
+                        <label for="applicant-email">Email Address *</label>
+                        <input type="email" id="applicant-email" name="email" required placeholder="your.email@example.com">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="applicant-linkedin">LinkedIn Profile</label>
+                        <input type="url" id="applicant-linkedin" name="linkedin" placeholder="https://linkedin.com/in/yourprofile">
+                    </div>
+                    <div class="form-group">
+                        <label for="applicant-github">GitHub Profile</label>
+                        <input type="url" id="applicant-github" name="github" placeholder="https://github.com/yourusername">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="applicant-discord">Discord Tag</label>
+                    <input type="text" id="applicant-discord" name="discord" placeholder="username#1234">
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="applicant-phone">Phone Number *</label>
+                        <input type="tel" id="applicant-phone" name="phone" required placeholder="+1 (555) 123-4567">
+                    </div>
+                    <div class="form-group">
+                        <label for="applicant-experience">Years of Experience</label>
+                        <select id="applicant-experience" name="experience">
+                            <option value="">Select experience level</option>
+                            <option value="0-1">0-1 years (Entry Level)</option>
+                            <option value="2-3">2-3 years (Junior Level)</option>
+                            <option value="4-6">4-6 years (Mid Level)</option>
+                            <option value="7-10">7-10 years (Senior Level)</option>
+                            <option value="10+">10+ years (Expert Level)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="applicant-address">Address *</label>
+                    <input type="text" id="applicant-address" name="address" placeholder="Street address" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="applicant-state">State/Province *</label>
+                        <input type="text" id="applicant-state" name="state" required placeholder="State or Province">
+                    </div>
+                    <div class="form-group">
+                        <label for="applicant-country">Country *</label>
+                        <input type="text" id="applicant-country" name="country" required placeholder="Country">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="applicant-cover">Cover Letter *</label>
+                    <textarea id="applicant-cover" name="coverLetter" rows="5" required placeholder="Tell us why you're interested in this position and what makes you a great fit..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="applicant-resume">Resume/CV *</label>
+                    <div class="resume-upload-container">
+                        <!-- Google Drive Link Input -->
+                        <div class="google-drive-link">
+                            <input type="url" id="resume-drive-link" name="resumeDriveLink" required
+                                   placeholder="https://drive.google.com/file/d/your-file-id/view?usp=sharing" 
+                                   class="form-input drive-link-input">
+                            <p class="upload-description">
+                                <i class="fas fa-info-circle"></i>
+                                Upload your resume to Google Drive, make it shareable ("Anyone with the link can view"), and paste the link here.
+                                <a href="#" onclick="showDriveInstructions()" class="help-link">Need help?</a>
+                            </p>
+                            <div id="drive-link-status" class="upload-status"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="internship-notice">
+                    <div class="notice-content">
+                        <i class="fas fa-info-circle"></i>
+                        <div class="notice-text">
+                            <h4>Important Notice for Internship Positions</h4>
+                            <p>Please note that <strong>internship positions are unpaid</strong>. These opportunities are designed to provide valuable experience, mentorship, and skill development in your chosen field.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group checkbox-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="privacy-consent" name="privacyConsent" required>
+                        <span class="checkmark"></span>
+                        I agree to the <a href="privacy-policy.html" target="_blank">Privacy Policy</a> and consent to the processing of my personal data.
+                    </label>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancel-application">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="submit-application">
+                        <i class="fas fa-paper-plane"></i>
+                        Submit Application
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Success Message -->
+    <div id="success-message" class="message success-message" style="display: none;">
+        <div class="message-content">
+            <i class="fas fa-check-circle"></i>
+            <h3>Application Submitted Successfully!</h3>
+            <p>Thank you for your interest in Sriox. We'll review your application and get back to you soon.</p>
+        </div>
+    </div>
+
+    <!-- Error Message -->
+    <div id="error-message" class="message error-message" style="display: none;">
+        <div class="message-content">
+            <i class="fas fa-exclamation-circle"></i>
+            <h3>Application Failed</h3>
+            <p id="error-text">Something went wrong. Please try again.</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section footer-logo-section">
+                    <img src="assets/icons/srioxtitle.png" alt="Sriox Logo" class="footer-logo" height="40">
+                    <p>Transforming education through innovative digital solutions and professional development.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="apply.html">Careers</a></li>
+                        <li><a href="testimonials.html">Testimonials</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Programs</h3>
+                    <ul class="footer-links">
+                        <li><a href="intern-policy.html">Internship Program</a></li>
+                        <li><a href="certificate.html">Professional Training</a></li>
+                        <li><a href="how-it-works.html">How It Works</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Legal</h3>
+                    <ul class="footer-links">
+                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="terms.html">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Sriox. All rights reserved.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+    <script src="js/drive-instructions.js"></script>
+    <script src="js/job-detail.js"></script>
+</body>
+</html>

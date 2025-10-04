@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Debug Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .debug-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; }
+        .success { color: green; }
+        .error { color: red; }
+        button { padding: 10px 20px; margin: 10px 5px; }
+        #logs { background: #f5f5f5; padding: 10px; height: 300px; overflow-y: auto; font-family: monospace; }
+    </style>
+</head>
+<body>
+    <h1>Firebase Connection Debug Test</h1>
+    
+    <div class="debug-section">
+        <h2>Connection Test</h2>
+        <button onclick="testConnection()">Test Firebase Connection</button>
+        <button onclick="testAddJob()">Test Add Job</button>
+        <button onclick="testGetJobs()">Test Get Jobs</button>
+        <button onclick="clearLogs()">Clear Logs</button>
+    </div>
+    
+    <div class="debug-section">
+        <h2>Add Test Job</h2>
+        <form id="test-form">
+            <input type="text" id="job-title" placeholder="Job Title" value="Test Engineer" required><br><br>
+            <select id="job-department" required>
+                <option value="engineering">Engineering</option>
+                <option value="marketing">Marketing</option>
+            </select><br><br>
+            <input type="text" id="job-location" placeholder="Location" value="Remote" required><br><br>
+            <button type="submit">Add Job</button>
+        </form>
+    </div>
+    
+    <div class="debug-section">
+        <h2>Debug Logs</h2>
+        <div id="logs"></div>
+    </div>
+
+    <script type="module">
+        import { JobManager } from './js/firebase-config.js';
+        
+        let jobManager;
+        
+        function addLog(message, type = 'info') {
+            const logs = document.getElementById('logs');
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = document.createElement('div');
+            logEntry.className = type;
+            logEntry.textContent = `[${timestamp}] ${message}`;
+            logs.appendChild(logEntry);
+            logs.scrollTop = logs.scrollHeight;
+            console.log(message);
+        }
+        
+        window.addLog = addLog;
+        
+        window.clearLogs = () => {
+            document.getElementById('logs').innerHTML = '';
+        };
+        
+        window.testConnection = async () => {
+            try {
+                addLog('🔧 Initializing JobManager...');
+                jobManager = new JobManager();
+                addLog('✅ JobManager created successfully', 'success');
+                
+                addLog('📡 Testing Firebase connection...');
+                const jobs = await jobManager.getAllJobs();
+                addLog(`✅ Connection successful! Found ${jobs.length} jobs`, 'success');
+                
+                if (jobs.length > 0) {
+                    addLog('📋 Sample job: ' + JSON.stringify(jobs[0], null, 2));
+                }
+                
+            } catch (error) {
+                addLog(`❌ Connection failed: ${error.message}`, 'error');
+                addLog(`❌ Error code: ${error.code}`, 'error');
+                addLog(`❌ Full error: ${JSON.stringify(error, null, 2)}`, 'error');
+            }
+        };
+        
+        window.testAddJob = async () => {
+            try {
+                if (!jobManager) {
+                    jobManager = new JobManager();
+                }
+                
+                const testJob = {
+                    title: 'Debug Test Job - ' + Date.now(),
+                    department: 'engineering',
+                    location: 'Test Location',
+                    type: 'full-time',
+                    description: 'This is a debug test job',
+                    requirements: 'Debug testing skills',
+                    isActive: true
+                };
+                
+                addLog('📝 Adding test job...');
+                addLog('Job data: ' + JSON.stringify(testJob, null, 2));
+                
+                const jobId = await jobManager.addJob(testJob);
+                addLog(`✅ Job added successfully with ID: ${jobId}`, 'success');
+                
+            } catch (error) {
+                addLog(`❌ Failed to add job: ${error.message}`, 'error');
+                addLog(`❌ Error code: ${error.code}`, 'error');
+            }
+        };
+        
+        window.testGetJobs = async () => {
+            try {
+                if (!jobManager) {
+                    jobManager = new JobManager();
+                }
+                
+                addLog('📋 Fetching all jobs...');
+                const jobs = await jobManager.getAllJobs();
+                addLog(`✅ Retrieved ${jobs.length} jobs`, 'success');
+                
+                jobs.forEach((job, index) => {
+                    addLog(`Job ${index + 1}: ${job.title} (${job.department})`);
+                });
+                
+            } catch (error) {
+                addLog(`❌ Failed to get jobs: ${error.message}`, 'error');
+            }
+        };
+        
+        // Form submission test
+        document.getElementById('test-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            try {
+                if (!jobManager) {
+                    jobManager = new JobManager();
+                }
+                
+                const formJob = {
+                    title: document.getElementById('job-title').value,
+                    department: document.getElementById('job-department').value,
+                    location: document.getElementById('job-location').value,
+                    type: 'full-time',
+                    description: 'Test job from form',
+                    requirements: 'Form testing',
+                    isActive: true
+                };
+                
+                addLog('📝 Submitting form job...');
+                const jobId = await jobManager.addJob(formJob);
+                addLog(`✅ Form job added with ID: ${jobId}`, 'success');
+                
+                // Clear form
+                document.getElementById('test-form').reset();
+                document.getElementById('job-title').value = 'Test Engineer';
+                document.getElementById('job-location').value = 'Remote';
+                
+            } catch (error) {
+                addLog(`❌ Form submission failed: ${error.message}`, 'error');
+            }
+        });
+        
+        // Auto-run connection test on load
+        setTimeout(() => {
+            addLog('🚀 Starting automatic connection test...');
+            testConnection();
+        }, 1000);
+        
+    </script>
+</body>
+</html>
