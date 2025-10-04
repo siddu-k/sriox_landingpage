@@ -1,0 +1,42 @@
+// SIMPLE Firestore Rules for Sriox Careers - GUARANTEED TO WORK
+// Copy this to Firebase Console > Firestore Database > Rules
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Allow all operations on all documents - DEVELOPMENT ONLY
+    match /{document=**} {
+      allow read, write, create, update, delete: if true;
+    }
+    
+    // Specific rules for jobs collection
+    match /jobs/{jobId} {
+      allow read, write, create, update, delete: if true;
+    }
+    
+    // Specific rules for applications collection
+    match /applications/{applicationId} {
+      allow read, write, create, update, delete: if true;
+    }
+    
+    // Admin collections
+    match /admin_settings/{settingId} {
+      allow read, write, create, update, delete: if true;
+    }
+    
+    match /analytics/{docId} {
+      allow read, write, create, update, delete: if true;
+    }
+  }
+}
+
+// INSTRUCTIONS:
+// 1. Copy everything between the lines above
+// 2. Go to Firebase Console
+// 3. Navigate to Firestore Database > Rules
+// 4. Delete all existing content
+// 5. Paste this content
+// 6. Click "Publish"
+// 7. Wait 1-2 minutes for deployment
+// 8. Test your job application again

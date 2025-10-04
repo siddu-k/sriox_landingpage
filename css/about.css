@@ -391,6 +391,51 @@
     margin: 0;
 }
 
+/* Team Description Box */
+.team-description {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.team-box {
+    background: var(--card-bg);
+    padding: 4rem 3rem;
+    border-radius: var(--border-radius);
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: var(--card-shadow);
+    max-width: 600px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.team-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.team-icon {
+    margin-bottom: 2rem;
+}
+
+.team-icon i {
+    font-size: 4rem;
+    color: var(--primary-accent);
+}
+
+.team-box h3 {
+    font-size: 2rem;
+    color: var(--text-main);
+    margin-bottom: 1.5rem;
+}
+
+.team-box p {
+    color: var(--text-secondary);
+    line-height: 1.8;
+    font-size: 1.1rem;
+    margin: 0;
+}
+
 /* About CTA Section */
 .about-cta {
     padding: 100px 0;

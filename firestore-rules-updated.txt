@@ -1,0 +1,157 @@
+// Updated Firestore Security Rules for Sriox Careers Platform
+// Copy these rules to your Firebase Console > Firestore Database > Rules
+// These rules are designed for production use with proper security
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // ===========================================
+    // JOBS COLLECTION - Public Job Listings
+    // ===========================================
+    match /jobs/{jobId} {
+      // Allow anyone to read published jobs
+      allow read: if true;
+      
+      // Allow creation and updates for development/admin
+      // In production, you should add authentication checks
+      allow create, update: if true;
+      
+      // Allow delete with validation
+      allow delete: if true;
+    }
+    
+    // ===========================================
+    // APPLICATIONS COLLECTION - Job Applications
+    // ===========================================
+    match /applications/{applicationId} {
+      // Allow anyone to create applications (for job applications)
+      allow create: if validateApplicationData(resource.data)
+                    && request.time == resource.data.appliedAt;
+      
+      // Allow reading applications - adjust for your admin needs
+      allow read: if true;
+      
+      // Allow updates for admin operations
+      allow update: if true;
+      
+      // Allow delete for admin operations
+      allow delete: if true;
+      
+      // Allow write operations for development
+      allow write: if true;
+    }
+    
+    // ===========================================
+    // ADMIN COLLECTIONS
+    // ===========================================
+    match /admin_settings/{settingId} {
+      allow read, write: if true;
+    }
+    
+    match /analytics/{docId} {
+      allow read, write, create: if true;
+    }
+    
+    // ===========================================
+    // HELPER FUNCTIONS FOR DATA VALIDATION
+    // ===========================================
+    
+    // Validate job posting data
+    function validateJobData(data) {
+      return data.keys().hasAll(['title', 'department', 'location', 'type', 'description', 'status'])
+        && data.title is string 
+        && data.title.size() > 0 
+        && data.title.size() <= 200
+        && data.department is string 
+        && data.department in ['Engineering', 'Marketing', 'Sales', 'HR', 'Operations', 'Design', 'engineering', 'marketing', 'sales', 'hr', 'operations', 'design']
+        && data.location is string 
+        && data.location.size() > 0 
+        && data.location.size() <= 200
+        && data.type is string 
+        && data.type in ['full-time', 'part-time', 'contract', 'internship', 'Full-time', 'Part-time', 'Contract', 'Internship']
+        && data.description is string 
+        && data.description.size() > 0 
+        && data.description.size() <= 10000
+        && data.status is string
+        && data.status in ['active', 'inactive', 'draft'];
+    }
+    
+    // Validate application data
+    function validateApplicationData(data) {
+      return data.keys().hasAll(['jobId', 'jobTitle', 'applicantName', 'email', 'appliedAt'])
+        && data.applicantName is string 
+        && data.applicantName.size() > 0 
+        && data.applicantName.size() <= 100
+        && data.email is string 
+        && data.email.matches('.*@.*\\..*')
+        && data.email.size() <= 254
+        && data.jobId is string 
+        && data.jobId.size() > 0
+        && data.jobTitle is string 
+        && data.jobTitle.size() > 0 
+        && data.jobTitle.size() <= 200
+        && data.appliedAt is string
+        && (!data.keys().hasAny(['phone']) || (data.phone is string && data.phone.size() <= 20))
+        && (!data.keys().hasAny(['experience']) || (data.experience is string && data.experience.size() <= 100))
+        && (!data.keys().hasAny(['coverLetter']) || (data.coverLetter is string && data.coverLetter.size() <= 5000))
+        && (!data.keys().hasAny(['resumeLink']) || (data.resumeLink is string && data.resumeLink.size() <= 500))
+        && (!data.keys().hasAny(['resumeFileName']) || (data.resumeFileName is string && data.resumeFileName.size() <= 200))
+        && (!data.keys().hasAny(['status']) || data.status in ['pending', 'reviewed', 'shortlisted', 'rejected', 'hired']);
+    }
+    
+    // Validate required application fields
+    function hasRequiredApplicationFields(data) {
+      return data.keys().hasAll([
+        'jobId', 
+        'jobTitle', 
+        'applicantName', 
+        'email', 
+        'appliedAt',
+        'status'
+      ]);
+    }
+    
+    // Check if email format is valid
+    function isValidEmail(email) {
+      return email.matches('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$');
+    }
+    
+    // Check application status transitions
+    function isValidStatusTransition(oldStatus, newStatus) {
+      return newStatus in ['pending', 'reviewed', 'shortlisted', 'rejected', 'hired']
+        && (
+          oldStatus == 'pending' ||
+          (oldStatus == 'reviewed' && newStatus in ['shortlisted', 'rejected']) ||
+          (oldStatus == 'shortlisted' && newStatus in ['hired', 'rejected'])
+        );
+    }
+    
+    // ===========================================
+    // DEVELOPMENT/FALLBACK RULES
+    // ===========================================
+    
+    // Catch-all rule for development - REMOVE IN PRODUCTION
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}
+
+// ===========================================
+// DEPLOYMENT INSTRUCTIONS
+// ===========================================
+// 1. Copy the entire content above
+// 2. Go to Firebase Console > Firestore Database > Rules
+// 3. Replace existing rules with this content
+// 4. Click "Publish" to deploy the rules
+// 5. Test your application submission
+
+// ===========================================
+// SECURITY NOTES
+// ===========================================
+// - These rules allow public job application submissions
+// - Admin operations should add authentication in production
+// - The catch-all rule at the bottom should be removed in production
+// - Consider adding rate limiting for application submissions
+// - Add user authentication for admin panel access

@@ -64,6 +64,29 @@ class JobDetailPage {
         this.successMessage = document.getElementById('success-message');
         this.errorMessage = document.getElementById('error-message');
         this.errorText = document.getElementById('error-text');
+        
+        // Debug: Log missing elements
+        this.debugMissingElements();
+    }
+    
+    debugMissingElements() {
+        const elements = {
+            'application-modal': this.applicationModal,
+            'application-form': this.applicationForm,
+            'modal-job-title': this.modalJobTitle,
+            'application-job-id': this.applicationJobId,
+            'resume-drive-link': this.resumeDriveLink,
+            'resume-file-name': this.resumeFileName,
+            'drive-upload-status': this.driveUploadStatus
+        };
+        
+        const missing = Object.entries(elements)
+            .filter(([name, element]) => !element)
+            .map(([name]) => name);
+        
+        if (missing.length > 0) {
+            console.warn('Missing job detail form elements:', missing);
+        }
     }
 
     async initializeGoogleDrive() {
@@ -219,8 +242,8 @@ class JobDetailPage {
         }
         
         // Update modal title
-        this.modalJobTitle.textContent = this.jobData.title;
-        this.applicationJobId.value = this.jobData.id;
+        if (this.modalJobTitle) this.modalJobTitle.textContent = this.jobData.title;
+        if (this.applicationJobId) this.applicationJobId.value = this.jobData.id;
     }
 
     showJobNotFound(customMessage = null) {
@@ -311,10 +334,10 @@ class JobDetailPage {
         document.body.style.overflow = 'auto';
         
         // Reset form
-        this.applicationForm.reset();
-        this.driveUploadStatus.innerHTML = '';
-        this.resumeDriveLink.value = '';
-        this.resumeFileName.value = '';
+        if (this.applicationForm) this.applicationForm.reset();
+        if (this.driveUploadStatus) this.driveUploadStatus.innerHTML = '';
+        if (this.resumeDriveLink) this.resumeDriveLink.value = '';
+        if (this.resumeFileName) this.resumeFileName.value = '';
     }
 
     async shareJob() {
@@ -407,7 +430,7 @@ class JobDetailPage {
             }
             
             // Check if resume is uploaded
-            if (!this.resumeDriveLink.value) {
+            if (!this.resumeDriveLink || !this.resumeDriveLink.value) {
                 throw new Error('Please upload your resume using Google Drive.');
             }
             
@@ -424,8 +447,8 @@ class JobDetailPage {
                 phone: formData.get('phone')?.trim() || '',
                 experience: formData.get('experience') || '',
                 coverLetter: formData.get('coverLetter').trim(),
-                resumeLink: this.resumeDriveLink.value,
-                resumeFileName: this.resumeFileName.value,
+                resumeLink: this.resumeDriveLink?.value || '',
+                resumeFileName: this.resumeFileName?.value || '',
                 appliedAt: new Date().toISOString(),
                 status: 'pending'
             };

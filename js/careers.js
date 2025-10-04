@@ -67,8 +67,30 @@ class CareersPage {
         this.jobIdInput = document.getElementById('job-id');
         this.jobTitleInput = document.getElementById('job-title-hidden');
         this.submitBtn = document.getElementById('submit-application');
-        this.submitText = this.submitBtn.querySelector('.submit-text');
-        this.submitLoading = this.submitBtn.querySelector('.submit-loading');
+        this.submitText = this.submitBtn?.querySelector('.submit-text');
+        this.submitLoading = this.submitBtn?.querySelector('.submit-loading');
+        
+        // Debug: Log missing elements
+        this.debugMissingElements();
+    }
+    
+    debugMissingElements() {
+        const elements = {
+            'application-modal': this.applicationModal,
+            'application-form': this.applicationForm,
+            'application-modal-title': this.modalTitle,
+            'job-id': this.jobIdInput,
+            'job-title-hidden': this.jobTitleInput,
+            'submit-application': this.submitBtn
+        };
+        
+        const missing = Object.entries(elements)
+            .filter(([name, element]) => !element)
+            .map(([name]) => name);
+        
+        if (missing.length > 0) {
+            console.warn('Missing form elements:', missing);
+        }
     }
 
     setupEventListeners() {
@@ -224,7 +246,6 @@ class CareersPage {
     }
 
     createJobCard(job) {
-        const requirements = job.requirements.split('\n').filter(req => req.trim()).slice(0, 3); // Show only first 3
         const deadline = job.deadline ? new Date(job.deadline).toLocaleDateString() : null;
 
         return `
@@ -241,40 +262,13 @@ class CareersPage {
                             </span>
                         </div>
                     </div>
-                    <div class="position-location">
-                        <i class="fas fa-map-marker-alt"></i>
-                        ${job.location}
-                    </div>
                 </div>
                 
                 <div class="position-content">
-                    <p class="position-description">${this.truncateText(job.description, 120)}</p>
-                    
-                    ${requirements.length > 0 ? `
-                        <div class="position-requirements-preview">
-                            <h5><i class="fas fa-list-check"></i> Key Requirements:</h5>
-                            <ul>
-                                ${requirements.map(req => `<li>${this.truncateText(req.trim(), 50)}</li>`).join('')}
-                                ${job.requirements.split('\n').filter(req => req.trim()).length > 3 ? '<li class="more-requirements">+ more...</li>' : ''}
-                            </ul>
-                        </div>
-                    ` : ''}
+                    <p class="position-description">${this.truncateText(job.description, 150)}</p>
                 </div>
                 
                 <div class="position-footer">
-                    <div class="position-info">
-                        ${job.salary ? `<span class="salary-badge">${job.salary}</span>` : ''}
-                        <span class="posted-time">
-                            <i class="fas fa-calendar"></i>
-                            ${this.timeAgo(job.createdAt)}
-                        </span>
-                        ${deadline ? `
-                            <span class="deadline-badge">
-                                <i class="fas fa-exclamation-triangle"></i>
-                                Apply by ${deadline}
-                            </span>
-                        ` : ''}
-                    </div>
                     <div class="position-actions">
                         <button class="view-details-btn" data-job-id="${job.id}" onclick="event.stopPropagation(); window.location.href='job-detail.html?id=${job.id}'">
                             <i class="fas fa-eye"></i>
@@ -293,6 +287,35 @@ class CareersPage {
     truncateText(text, maxLength) {
         if (text.length <= maxLength) return text;
         return text.substring(0, maxLength).trim() + '...';
+    }
+
+    makeFriendlyRequirement(text, maxLength) {
+        // Make requirements sound more friendly and welcoming
+        let friendlyText = text;
+        
+        // Replace harsh requirement language with friendlier alternatives
+        const friendlyReplacements = {
+            'Must have': 'Experience with',
+            'Required:': 'We\'d love if you have',
+            'Minimum': 'Some',
+            'At least': 'Around',
+            'Strong knowledge': 'Good understanding',
+            'Expert level': 'Solid experience',
+            'Proficiency in': 'Familiarity with',
+            'years of experience': 'years working with',
+            'Bachelor\'s degree': 'degree or equivalent experience',
+            'Master\'s degree': 'advanced degree or similar background'
+        };
+        
+        // Apply friendly replacements
+        Object.keys(friendlyReplacements).forEach(harsh => {
+            const friendlyRegex = new RegExp(harsh, 'gi');
+            friendlyText = friendlyText.replace(friendlyRegex, friendlyReplacements[harsh]);
+        });
+        
+        // Truncate if needed
+        if (friendlyText.length <= maxLength) return friendlyText;
+        return friendlyText.substring(0, maxLength).trim() + '...';
     }
 
     formatJobType(type) {
@@ -322,25 +345,33 @@ class CareersPage {
         const job = this.jobs.find(j => j.id === jobId);
         if (!job) return;
 
-        this.jobIdInput.value = jobId;
-        this.jobTitleInput.value = job.title;
-        this.modalTitle.textContent = `Apply for ${job.title}`;
+        if (this.jobIdInput) this.jobIdInput.value = jobId;
+        if (this.jobTitleInput) this.jobTitleInput.value = job.title;
+        if (this.modalTitle) this.modalTitle.textContent = `Apply for ${job.title}`;
         
-        this.applicationModal.style.display = 'block';
-        document.body.style.overflow = 'hidden';
+        if (this.applicationModal) {
+            this.applicationModal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
         
         // Reset form
-        this.applicationForm.reset();
-        this.jobIdInput.value = jobId;
-        this.jobTitleInput.value = job.title;
+        if (this.applicationForm) {
+            this.applicationForm.reset();
+            if (this.jobIdInput) this.jobIdInput.value = jobId;
+            if (this.jobTitleInput) this.jobTitleInput.value = job.title;
+        }
     }
 
     closeApplicationModal() {
-        this.applicationModal.style.display = 'none';
+        if (this.applicationModal) {
+            this.applicationModal.style.display = 'none';
+        }
         document.body.style.overflow = 'auto';
         
         // Reset form and error states
-        this.applicationForm.reset();
+        if (this.applicationForm) {
+            this.applicationForm.reset();
+        }
         this.resetSubmitButton();
         this.clearMessages();
     }
@@ -414,6 +445,11 @@ class CareersPage {
     }
 
     validateForm() {
+        if (!this.applicationForm) {
+            console.error('Application form not found');
+            return false;
+        }
+        
         const requiredFields = [
             'name', 'email', 'phone', 'location', 'experience', 
             'noticePeriod', 'skills', 'coverLetter'
@@ -426,7 +462,7 @@ class CareersPage {
             if (field && !field.value.trim()) {
                 this.showFieldError(field, 'This field is required');
                 isValid = false;
-            } else {
+            } else if (field) {
                 this.clearFieldError(field);
             }
         });
@@ -446,8 +482,11 @@ class CareersPage {
         }
         
         // Validate resume upload (either Google Drive or traditional)
-        const driveLink = this.applicationForm.querySelector('[name="resumeDriveLink"]').value;
-        const traditionalFile = this.applicationForm.querySelector('[name="resume"]').files[0];
+        const driveLinkField = this.applicationForm.querySelector('[name="resumeDriveLink"]');
+        const traditionalFileField = this.applicationForm.querySelector('[name="resume"]');
+        
+        const driveLink = driveLinkField ? driveLinkField.value : '';
+        const traditionalFile = traditionalFileField ? traditionalFileField.files[0] : null;
         
         if (!driveLink && !traditionalFile) {
             this.showErrorMessage('Please upload your resume using Google Drive or traditional upload');

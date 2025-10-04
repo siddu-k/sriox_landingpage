@@ -767,3 +767,485 @@
         padding: 0.8rem 1rem;
     }
 }
+
+/* How It Works Section Styles */
+.how-it-works-section {
+    padding: 100px 0;
+    background: var(--primary-bg);
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.section-header h2 {
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    margin-bottom: 1rem;
+    color: var(--text-main);
+}
+
+.section-header p {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.process-timeline {
+    max-width: 1000px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.process-timeline::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(180deg, var(--primary-accent), var(--secondary-accent));
+    transform: translateX(-50%);
+    z-index: 1;
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 4rem;
+}
+
+.timeline-content {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    position: relative;
+}
+
+.timeline-content.reverse {
+    flex-direction: row-reverse;
+}
+
+.step-visual {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.step-number {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, var(--primary-accent), var(--secondary-accent));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+    box-shadow: 0 10px 30px rgba(255, 123, 0, 0.3);
+}
+
+.step-icon {
+    width: 80px;
+    height: 80px;
+    background: var(--card-bg);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid rgba(255, 123, 0, 0.2);
+}
+
+.step-icon i {
+    font-size: 2rem;
+    color: var(--primary-accent);
+}
+
+.step-details {
+    flex: 1;
+    background: var(--card-bg);
+    padding: 2.5rem;
+    border-radius: var(--border-radius);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.step-details:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.step-details h3 {
+    font-size: 1.5rem;
+    color: var(--text-main);
+    margin-bottom: 1rem;
+    font-family: var(--heading-font);
+}
+
+.step-details p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.step-features {
+    list-style: none;
+    margin-bottom: 1.5rem;
+}
+
+.step-features li {
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.step-features i {
+    color: var(--primary-accent);
+    font-size: 0.8rem;
+}
+
+.step-duration {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--primary-accent);
+    font-weight: 600;
+    font-size: 0.9rem;
+    background: rgba(255, 123, 0, 0.1);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    width: fit-content;
+}
+
+.step-duration i {
+    font-size: 0.8rem;
+}
+
+/* Timeline Responsive Design */
+@media (max-width: 768px) {
+    .process-timeline::before {
+        left: 30px;
+    }
+    
+    .timeline-content,
+    .timeline-content.reverse {
+        flex-direction: column;
+        align-items: flex-start;
+        padding-left: 80px;
+    }
+    
+    .step-visual {
+        position: absolute;
+        left: 0;
+        top: 20px;
+    }
+    
+    .step-number {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+    }
+    
+    .step-icon {
+        width: 60px;
+        height: 60px;
+        border-width: 2px;
+    }
+    
+    .step-icon i {
+        font-size: 1.5rem;
+    }
+    
+    .step-details {
+        width: 100%;
+        padding: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .how-it-works-section {
+        padding: 60px 0;
+    }
+    
+    .timeline-content,
+    .timeline-content.reverse {
+        padding-left: 70px;
+    }
+    
+    .step-details {
+        padding: 1.5rem;
+    }
+    
+    .step-details h3 {
+        font-size: 1.3rem;
+    }
+}
+
+/* Internship Process Section */
+.internship-process {
+    padding: 100px 0;
+    background: var(--primary-bg);
+}
+
+.process-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.process-header h2 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    margin-bottom: 1rem;
+    color: var(--text-main);
+}
+
+.process-header p {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.process-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2.5rem;
+    margin-top: 3rem;
+}
+
+.process-card {
+    background: var(--card-bg);
+    padding: 2.5rem;
+    border-radius: var(--border-radius);
+    text-align: center;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.process-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, var(--primary-accent) 0%, var(--secondary-accent) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 0;
+}
+
+.process-card:hover::before {
+    opacity: 0.1;
+}
+
+.process-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    border-color: var(--primary-accent);
+}
+
+.process-icon {
+    position: relative;
+    z-index: 1;
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1.5rem;
+    background: linear-gradient(135deg, var(--primary-accent), var(--secondary-accent));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.process-card:hover .process-icon {
+    transform: scale(1.1);
+    box-shadow: 0 10px 20px rgba(255, 123, 0, 0.4);
+}
+
+.process-card h3 {
+    position: relative;
+    z-index: 1;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--text-main);
+    transition: color 0.3s ease;
+}
+
+.process-card p {
+    position: relative;
+    z-index: 1;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    transition: color 0.3s ease;
+}
+
+/* Company Recognition Section */
+.company-recognition {
+    padding: 100px 0;
+    background: var(--secondary-bg);
+}
+
+.recognition-content {
+    text-align: center;
+}
+
+.recognition-header {
+    margin-bottom: 4rem;
+}
+
+.recognition-header h2 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    margin-bottom: 0.5rem;
+    color: var(--text-main);
+}
+
+.recognition-header p {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+}
+
+.recognition-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.msme-badge {
+    background: var(--card-bg);
+    padding: 3rem 2rem;
+    border-radius: var(--border-radius);
+    border: 2px solid var(--primary-accent);
+    position: relative;
+    overflow: hidden;
+}
+
+.msme-badge::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, var(--primary-accent) 0%, var(--secondary-accent) 100%);
+    opacity: 0.1;
+}
+
+.badge-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.badge-content i {
+    font-size: 3rem;
+    color: var(--primary-accent);
+}
+
+.badge-info h3 {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-main);
+}
+
+.badge-info p {
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+.registration-type {
+    display: inline-block;
+    background: var(--primary-accent);
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.recognition-benefits {
+    text-align: left;
+}
+
+.recognition-benefits h4 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-main);
+}
+
+.recognition-benefits ul {
+    list-style: none;
+    padding: 0;
+}
+
+.recognition-benefits li {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+}
+
+.recognition-benefits li i {
+    color: var(--primary-accent);
+    font-size: 1.2rem;
+}
+
+/* Responsive Design for New Sections */
+@media (max-width: 768px) {
+    .process-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .process-card {
+        padding: 2rem;
+    }
+    
+    .recognition-details {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+        text-align: center;
+    }
+    
+    .recognition-benefits {
+        text-align: center;
+    }
+    
+    .badge-content {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .internship-process,
+    .company-recognition {
+        padding: 60px 0;
+    }
+    
+    .process-header h2,
+    .recognition-header h2 {
+        font-size: 2rem;
+    }
+    
+    .msme-badge {
+        padding: 2rem 1.5rem;
+    }
+}
