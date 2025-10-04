@@ -36,7 +36,7 @@ Allow: /robots.txt
 Allow: /sitemap.xml
 
 # Sitemap location
-Sitemap: https://siddu-k.github.io/sriox_landingpage/sitemap.xml
+Sitemap: https://sriox.com/sitemap.xml
 
 # Crawl delay (optional - be respectful to servers)
 Crawl-delay: 1
