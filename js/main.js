@@ -1,5 +1,43 @@
 // Main JavaScript for Sriox Website
 
+// Loading Page Functionality
+window.addEventListener('load', function() {
+    const loadingOverlay = document.getElementById('loading-overlay');
+    const mainContent = document.getElementById('main-content');
+    
+    // Minimum loading time for better UX (1.5 seconds)
+    setTimeout(function() {
+        // Hide loading overlay
+        loadingOverlay.classList.add('hidden');
+        
+        // Show main content with fade in
+        setTimeout(function() {
+            mainContent.classList.add('loaded');
+        }, 400); // Delay to allow loading overlay to fade out
+        
+        // Remove loading overlay from DOM after animation
+        setTimeout(function() {
+            loadingOverlay.style.display = 'none';
+        }, 800);
+    }, 1500);
+});
+
+// Preload critical images for faster loading
+function preloadImages() {
+    const images = [
+        'assets/icons/loadimg.png',
+        'assets/icons/logosriox.png'
+    ];
+    
+    images.forEach(function(src) {
+        const img = new Image();
+        img.src = src;
+    });
+}
+
+// Start preloading immediately
+preloadImages();
+
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize all functionality
     initNavigation();

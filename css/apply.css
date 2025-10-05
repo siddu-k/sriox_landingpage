@@ -684,6 +684,59 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
+    .careers-hero {
+        padding: 120px 0 80px;
+        text-align: center;
+    }
+    
+    .hero-content {
+        padding: 0 1.5rem;
+    }
+    
+    .hero-content h1 {
+        font-size: 2.8rem;
+        line-height: 1.2;
+        margin-bottom: 1.5rem;
+    }
+    
+    .hero-content p {
+        font-size: 1.2rem;
+        line-height: 1.6;
+        max-width: 90%;
+        margin: 0 auto;
+    }
+    
+    .jobs-container {
+        padding: 0 1rem;
+    }
+    
+    .job-card {
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .job-header h3 {
+        font-size: 1.3rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .job-meta {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    
+    .job-tag {
+        font-size: 0.8rem;
+        padding: 0.3rem 0.6rem;
+    }
+    
+    .apply-btn {
+        width: 100%;
+        padding: 14px;
+        font-size: 1rem;
+        min-height: 48px;
+    }
+    
     .modal-content {
         margin: 1% auto;
         width: 95%;
@@ -711,8 +764,14 @@
     .form-group input,
     .form-group select,
     .form-group textarea {
-        padding: 0.875rem 1rem;
+        padding: 14px 16px;
         font-size: 16px; /* Prevent zoom on iOS */
+        min-height: 48px;
+        border-radius: 8px;
+    }
+    
+    .form-group textarea {
+        min-height: 120px;
     }
     
     .modal-actions {

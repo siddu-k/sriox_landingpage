@@ -490,7 +490,7 @@
 @media (max-width: 768px) {
     .about-grid {
         grid-template-columns: 1fr;
-        gap: 2rem;
+        gap: 2.5rem;
     }
     
     .mission-vision-grid {
@@ -500,6 +500,7 @@
     
     .teamwork-illustration {
         grid-template-columns: 1fr;
+        gap: 1.5rem;
     }
     
     .illustration-card:nth-child(3) {
@@ -507,16 +508,45 @@
     }
     
     .about-hero {
-        padding: 100px 0 60px;
+        padding: 120px 0 80px;
+        text-align: center;
+    }
+    
+    .hero-content {
+        padding: 0 1.5rem;
+    }
+    
+    .hero-content h1 {
+        font-size: 2.8rem;
+        line-height: 1.2;
+        margin-bottom: 1.5rem;
+    }
+    
+    .hero-content p {
+        font-size: 1.2rem;
+        line-height: 1.6;
+        max-width: 90%;
+        margin: 0 auto;
     }
     
     .section {
-        padding: 80px 0;
+        padding: 60px 0;
     }
     
     .stats-grid {
         grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
     }
+    
+    .feature-item {
+        padding: 1.5rem;
+        text-align: center;
+    }
+    
+    .feature-item .icon {
+        margin-bottom: 1rem;
+    }
+}
     
     .values-grid {
         grid-template-columns: 1fr;
@@ -534,36 +564,65 @@
 
 @media (max-width: 480px) {
     .about-hero {
-        padding: 80px 0 40px;
+        padding: 100px 0 60px;
+    }
+    
+    .hero-content {
+        padding: 0 1rem;
     }
     
     .hero-content h1 {
-        font-size: 2.5rem;
+        font-size: 2.2rem;
+        line-height: 1.2;
+        margin-bottom: 1rem;
     }
     
     .hero-content p {
-        font-size: 1.1rem;
+        font-size: 1rem;
+        line-height: 1.6;
+        margin-bottom: 2rem;
     }
     
     .feature-item {
         flex-direction: column;
         text-align: center;
         gap: 1rem;
+        padding: 1.5rem 1rem;
+    }
+    
+    .feature-item .icon {
+        font-size: 2rem;
+        margin-bottom: 1rem;
     }
     
     .stats-grid {
         grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .stat-item {
+        padding: 1.5rem 1rem;
+        text-align: center;
     }
     
     .mission, .vision {
-        padding: 2rem;
+        padding: 2rem 1.5rem;
+        margin: 0 1rem;
+        border-radius: 12px;
     }
     
     .value-card {
-        padding: 2rem;
+        padding: 1.5rem;
+        margin: 0 1rem;
+        text-align: center;
     }
     
     .team-member {
-        padding: 2rem 1.5rem;
+        padding: 1.5rem;
+        text-align: center;
+    }
+    
+    .section {
+        padding: 50px 0;
     }
 }
