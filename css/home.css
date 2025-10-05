@@ -1522,3 +1522,359 @@
         font-size: 0.7rem;
     }
 }
+
+/* Maintenance Pricing Section */
+.maintenance-pricing {
+    padding: 100px 0;
+    background: var(--secondary-bg);
+    position: relative;
+}
+
+.maintenance-pricing::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 20% 80%, rgba(255, 123, 0, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.maintenance-pricing .container {
+    position: relative;
+    z-index: 1;
+}
+
+.pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+}
+
+.pricing-feature {
+    background: var(--card-bg);
+    padding: 2.5rem 2rem;
+    border-radius: var(--border-radius);
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.pricing-feature:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    border-color: var(--primary-accent);
+}
+
+.feature-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, var(--primary-accent), var(--secondary-accent));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-size: 2rem;
+    color: var(--primary-bg);
+}
+
+.pricing-feature h3 {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    color: var(--text-main);
+}
+
+.pricing-feature p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.pricing-tiers {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.maintenance-benefits {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.benefit-item {
+    background: var(--card-bg);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.benefit-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    border-color: var(--primary-accent);
+}
+
+.benefit-icon {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, var(--primary-accent), var(--secondary-accent));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-size: 1.8rem;
+    color: var(--primary-bg);
+}
+
+.benefit-item h3 {
+    font-size: 1.3rem;
+    color: var(--text-main);
+    margin-bottom: 1rem;
+}
+
+.benefit-item p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.pricing-tier {
+    background: var(--card-bg);
+    border-radius: var(--border-radius);
+    padding: 2.5rem 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.pricing-tier:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+}
+
+.pricing-tier.featured {
+    border-color: var(--primary-accent);
+    transform: scale(1.05);
+}
+
+.pricing-tier.featured:hover {
+    transform: scale(1.05) translateY(-5px);
+}
+
+.tier-badge {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--primary-accent);
+    color: var(--primary-bg);
+    padding: 0.5rem 1.5rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.tier-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tier-header h3 {
+    font-size: 1.5rem;
+    color: var(--text-main);
+    margin-bottom: 1rem;
+}
+
+.tier-price {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.tier-price .price {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--primary-accent);
+}
+
+.tier-price .period {
+    font-size: 1rem;
+    color: var(--text-secondary);
+}
+
+.tier-traffic {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    padding: 0.75rem 1rem;
+    background: rgba(255, 123, 0, 0.1);
+    border-radius: 8px;
+    color: var(--primary-accent);
+    font-weight: 500;
+}
+
+.tier-traffic i {
+    font-size: 1.1rem;
+}
+
+.tier-features {
+    list-style: none;
+}
+
+.tier-features li {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+    color: var(--text-secondary);
+}
+
+.tier-features li i {
+    color: var(--primary-accent);
+    font-size: 0.9rem;
+    width: 16px;
+}
+
+.pricing-note {
+    background: linear-gradient(135deg, rgba(255, 123, 0, 0.1), rgba(0, 119, 255, 0.1));
+    border: 1px solid rgba(255, 123, 0, 0.2);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    text-align: center;
+}
+
+.note-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.note-content i {
+    font-size: 1.5rem;
+    color: var(--primary-accent);
+    flex-shrink: 0;
+}
+
+.note-content p {
+    color: var(--text-main);
+    margin: 0;
+    line-height: 1.6;
+}
+
+/* Maintenance Pricing Mobile Styles */
+@media (max-width: 768px) {
+    .maintenance-pricing {
+        padding: 80px 0;
+    }
+    
+    .pricing-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        margin-bottom: 3rem;
+    }
+    
+    .pricing-feature {
+        padding: 2rem 1.5rem;
+    }
+    
+    .feature-icon {
+        width: 70px;
+        height: 70px;
+        font-size: 1.8rem;
+    }
+    
+    .pricing-tiers {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .maintenance-benefits {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .benefit-item {
+        padding: 1.5rem;
+    }
+    
+    .benefit-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+    }
+    
+    .pricing-tier.featured {
+        transform: none;
+    }
+    
+    .pricing-tier.featured:hover {
+        transform: translateY(-5px);
+    }
+    
+    .tier-price .price {
+        font-size: 2rem;
+    }
+    
+    .note-content {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .maintenance-pricing {
+        padding: 60px 0;
+    }
+    
+    .pricing-feature {
+        padding: 1.5rem 1rem;
+    }
+    
+    .pricing-tier {
+        padding: 2rem 1.5rem;
+    }
+    
+    .maintenance-benefits {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .benefit-item {
+        padding: 1.5rem 1rem;
+    }
+    
+    .benefit-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.3rem;
+        margin-bottom: 1rem;
+    }
+    
+    .tier-price .price {
+        font-size: 1.8rem;
+    }
+    
+    .tier-traffic {
+        flex-direction: column;
+        gap: 0.3rem;
+        text-align: center;
+    }
+    
+    .pricing-note {
+        padding: 1.5rem;
+    }
+}
