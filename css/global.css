@@ -455,6 +455,8 @@ p {
     width: auto !important;
     max-width: none !important;
     min-width: auto !important;
+    line-height: 1.2;
+    border: 1px solid transparent;
 }
 
 .nav-actions {
@@ -898,11 +900,16 @@ p {
     
     .nav-cta {
         margin: 0;
-        padding: 0.3rem 0.6rem;
-        font-size: 0.65rem;
+        padding: 0.2rem 0.4rem !important;
+        font-size: 0.55rem !important;
         width: auto !important;
         max-width: none !important;
         min-width: auto !important;
+        min-height: auto !important;
+        line-height: 1.2 !important;
+        border-radius: 5px !important;
+        font-weight: 600;
+        border: 1px solid transparent !important;
     }
     
     .nav-actions {
@@ -985,6 +992,17 @@ p {
     
     .nav-container {
         padding: 0 15px;
+    }
+    
+    /* Smaller contact button for very small screens */
+    .nav-cta {
+        padding: 0.15rem 0.35rem !important;
+        font-size: 0.5rem !important;
+        border-radius: 4px !important;
+        min-height: auto !important;
+        line-height: 1.2 !important;
+        font-weight: 600;
+        border: 1px solid transparent !important;
     }
     
     .card {
