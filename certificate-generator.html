@@ -1,0 +1,1422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sriox Certificate Generator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode/1.5.3/qrcode.min.js"></script>
+    
+    <style>
+        :root {
+            --primary-bg: #0D0D0D;
+            --secondary-bg: #1A1A1A;
+            --primary-accent: #FF7B00;
+            --secondary-accent: #0077FF;
+            --text-main: #FFFFFF;
+            --text-secondary: #A0A0A0;
+            --card-bg: #1A1A1A;
+            --heading-font: 'Poppins', sans-serif;
+            --body-font: 'Inter', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--body-font);
+            background: linear-gradient(135deg, var(--primary-bg), var(--secondary-bg));
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .generator-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .form-section {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .form-section h1 {
+            font-family: var(--heading-font);
+            color: var(--primary-accent);
+            margin-bottom: 2rem;
+            text-align: center;
+            font-size: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-main);
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #333;
+            border-radius: 8px;
+            background: var(--secondary-bg);
+            color: var(--text-main);
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-accent);
+        }
+
+        .btn-generate {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, var(--primary-accent), #ff9533);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .btn-generate:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 123, 0, 0.4);
+        }
+
+        .certificate-preview {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: visible;
+            transform: scale(1.1);
+            transform-origin: top left;
+            width: 900px;
+            height: auto;
+            min-height: 650px;
+        }
+
+        /* Certificate Styles - Original Design with overflow fix */
+        .certificate-frame {
+            background: white;
+            border: 8px solid #FF7B00;
+            border-radius: 15px;
+            padding: 2.5rem;
+            position: relative;
+            min-height: 550px;
+            height: auto;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            box-sizing: border-box;
+            overflow: visible;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .certificate-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .cert-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #FF7B00;
+        }
+
+        .cert-logo-img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+        }
+
+        .cert-id {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .certificate-title {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .certificate-title h2 {
+            font-family: var(--heading-font);
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .title-underline {
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(45deg, #FF7B00, #0077FF);
+            margin: 0 auto;
+        }
+
+        .certificate-body {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .cert-intro {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .student-name {
+            font-size: 1.9rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 1rem;
+            text-decoration: underline;
+            text-decoration-color: #FF7B00;
+        }
+
+        .cert-description {
+            font-size: 0.95rem;
+            color: #555;
+            line-height: 1.4;
+            margin-bottom: 1rem;
+            max-width: 520px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .project-details {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 10px;
+            border-left: 5px solid #FF7B00;
+            text-align: left;
+            max-width: 400px;
+            margin: 1rem auto 0;
+        }
+
+        .project-details h4 {
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-details p {
+            color: #FF7B00;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .completion-date {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .certificate-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: end;
+            margin-top: auto;
+            padding-top: 1.5rem;
+            flex-shrink: 0;
+            width: 100%;
+        }
+
+        .signature-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: end;
+            width: 100%;
+        }
+
+        .signature {
+            text-align: center;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 200px;
+        }
+
+        .signature-line {
+            width: 180px;
+            height: 2px;
+            background: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .signature-image {
+            width: 150px;
+            height: 60px;
+            object-fit: contain;
+            margin-bottom: 0.5rem;
+            display: none;
+            max-width: 150px;
+            max-height: 60px;
+        }
+
+        .signature-image.show {
+            display: block;
+        }
+
+        .signature p {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.2rem;
+        }
+
+        .signature span {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .qr-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            max-width: 120px;
+        }
+
+        .qr-code {
+            width: 80px;
+            height: 80px;
+            border: 2px solid #FF7B00;
+            border-radius: 8px;
+            padding: 5px;
+            background: white;
+            max-width: 80px;
+            max-height: 80px;
+            object-fit: contain;
+        }
+
+        .qr-text {
+            color: #666;
+            font-size: 0.75rem;
+            text-align: center;
+            max-width: 100px;
+            line-height: 1.2;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .generator-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .certificate-preview {
+                transform: scale(0.9);
+                width: 800px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .certificate-preview {
+                transform: scale(0.75);
+                width: 700px;
+            }
+            
+            .certificate-frame {
+                padding: 2rem;
+            }
+            
+            .certificate-title h2 {
+                font-size: 2rem;
+            }
+            
+            .student-name {
+                font-size: 1.8rem;
+            }
+        }
+
+        /* File input styling */
+        .file-input-wrapper {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .file-input-label {
+            display: block;
+            padding: 12px;
+            border: 2px dashed #666;
+            border-radius: 8px;
+            background: var(--secondary-bg);
+            color: var(--text-secondary);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .file-input-label:hover {
+            border-color: var(--primary-accent);
+            color: var(--primary-accent);
+        }
+
+        .file-input-label.has-file {
+            border-color: var(--primary-accent);
+            color: var(--primary-accent);
+            border-style: solid;
+        }
+
+        /* Loading and Success States */
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .success-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #28a745;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .success-message.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Template Section Styles */
+        .certificate-template-section {
+            max-width: 1200px;
+            margin: 4rem auto 2rem;
+            padding: 0 2rem;
+        }
+
+        .template-preview {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            margin-bottom: 2rem;
+            transform: scale(0.8);
+            transform-origin: top center;
+        }
+
+        .template-frame {
+            background: white;
+            border: 8px solid #FF7B00;
+            border-radius: 15px;
+            padding: 40px;
+            position: relative;
+            width: 850px;
+            height: 600px;
+            color: #333;
+            margin: 0 auto;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .template-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .template-logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .template-logo-img {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+        }
+
+        .template-cert-id {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .template-title {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .template-title h2 {
+            font-family: var(--heading-font);
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .template-underline {
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(45deg, #FF7B00, #0077FF);
+            margin: 0 auto;
+        }
+
+        .template-body {
+            text-align: center;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .template-intro {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .template-student-name {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 1.2rem;
+            text-decoration: underline;
+            text-decoration-color: #FF7B00;
+        }
+
+        .template-description {
+            font-size: 1rem;
+            color: #555;
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .template-project-details {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 5px solid #FF7B00;
+            text-align: left;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .template-project-details h4 {
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .template-project-details p {
+            color: #FF7B00;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .template-completion-date {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .template-footer {
+            margin-top: 2rem;
+        }
+
+        .template-signature-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: end;
+            width: 100%;
+        }
+
+        .template-signature {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .template-signature-line {
+            width: 200px;
+            height: 2px;
+            background: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .template-signature p {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.2rem;
+        }
+
+        .template-signature span {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .template-qr-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .template-qr-placeholder {
+            width: 90px;
+            height: 90px;
+            border: 2px solid #FF7B00;
+            border-radius: 8px;
+            background: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .template-qr-text {
+            color: #666;
+            font-size: 0.75rem;
+            text-align: center;
+            max-width: 100px;
+            line-height: 1.2;
+        }
+
+        .template-specs {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-top: 2rem;
+        }
+
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .spec-item {
+            background: var(--secondary-bg);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid var(--primary-accent);
+        }
+
+        .spec-item strong {
+            color: var(--primary-accent);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .apply-template-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, var(--primary-accent), #ff9533);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .apply-template-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 123, 0, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="generator-container">
+        <!-- Form Section -->
+        <div class="form-section">
+            <h1><i class="fas fa-certificate"></i> Certificate Generator</h1>
+            
+            <form id="certificateForm">
+                <div class="form-group">
+                    <label for="studentName">Student Name:</label>
+                    <input type="text" id="studentName" value="John Doe" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="certificateId">Certificate ID:</label>
+                    <input type="text" id="certificateId" value="SRX2024001" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="stream">Stream/Program:</label>
+                    <select id="stream" required>
+                        <option value="Web Development Internship Program">Web Development Internship Program</option>
+                        <option value="Mobile App Development Internship Program">Mobile App Development Internship Program</option>
+                        <option value="UI/UX Design Internship Program">UI/UX Design Internship Program</option>
+                        <option value="Digital Marketing Internship Program">Digital Marketing Internship Program</option>
+                        <option value="Data Science Internship Program">Data Science Internship Program</option>
+                        <option value="Software Development Internship Program">Software Development Internship Program</option>
+                        <option value="custom">Other (Custom)</option>
+                    </select>
+                    <input type="text" id="customStream" placeholder="Enter custom program name" style="display: none; margin-top: 0.5rem; width: 100%; padding: 12px; border: 2px solid #333; border-radius: 8px; background: var(--secondary-bg); color: var(--text-main);">
+                </div>
+
+                <div class="form-group">
+                    <label for="projectCompleted">Project Completed:</label>
+                    <input type="text" id="projectCompleted" value="E-commerce Website Development" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="monthsWorked">Duration (Months):</label>
+                    <select id="monthsWorked" required>
+                        <option value="1">1 Month</option>
+                        <option value="2">2 Months</option>
+                        <option value="3" selected>3 Months</option>
+                        <option value="4">4 Months</option>
+                        <option value="6">6 Months</option>
+                        <option value="12">12 Months</option>
+                        <option value="custom">Other (Custom)</option>
+                    </select>
+                    <input type="text" id="customDuration" placeholder="Enter custom duration" style="display: none; margin-top: 0.5rem; width: 100%; padding: 12px; border: 2px solid #333; border-radius: 8px; background: var(--secondary-bg); color: var(--text-main);">
+                </div>
+
+                <div class="form-group">
+                    <label for="completionDate">Completion Date:</label>
+                    <input type="date" id="completionDate" value="2025-01-15" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="signatoryName">Signatory Name:</label>
+                    <input type="text" id="signatoryName" value="Raj Sharma" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="signatoryTitle">Signatory Title:</label>
+                    <input type="text" id="signatoryTitle" value="CEO, Sriox Technologies" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="logoImage">Header Logo Image (Optional):</label>
+                    <div class="file-input-wrapper">
+                        <input type="file" id="logoImage" class="file-input" accept="image/*">
+                        <label for="logoImage" class="file-input-label" id="logoLabel">
+                            <i class="fas fa-image"></i> Upload Custom Logo
+                        </label>
+                    </div>
+                    <small style="color: var(--text-secondary); font-size: 0.8rem; display: block; margin-top: 0.5rem;">
+                        Upload custom logo or leave empty for default CETLOGO.png
+                    </small>
+                </div>
+
+                <div class="form-group">
+                    <label>Logo Position & Size:</label>
+                    <div style="margin-bottom: 1rem;">
+                        <label style="font-size: 0.9rem; color: var(--text-secondary);">Size: <span id="logoSizeValue">80px</span></label>
+                        <input type="range" id="logoSizeSlider" min="20" max="200" value="80" style="width: 100%; margin-top: 0.5rem; accent-color: var(--primary-accent);">
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+                        <input type="number" id="logoWidth" placeholder="Width (px)" value="80" style="padding: 8px; border: 2px solid #333; border-radius: 4px; background: var(--secondary-bg); color: var(--text-main);">
+                        <input type="number" id="logoHeight" placeholder="Height (px)" value="80" style="padding: 8px; border: 2px solid #333; border-radius: 4px; background: var(--secondary-bg); color: var(--text-main);">
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-top: 0.5rem;">
+                        <input type="number" id="logoX" placeholder="X Position (px)" value="0" style="padding: 8px; border: 2px solid #333; border-radius: 4px; background: var(--secondary-bg); color: var(--text-main);">
+                        <input type="number" id="logoY" placeholder="Y Position (px)" value="0" style="padding: 8px; border: 2px solid #333; border-radius: 4px; background: var(--secondary-bg); color: var(--text-main);">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="logoImage">Header Logo Image (Optional):</label>
+                    <div class="file-input-wrapper">
+                        <input type="file" id="logoImage" class="file-input" accept="image/*">
+                        <label for="logoImage" class="file-input-label" id="logoLabel">
+                            <i class="fas fa-image"></i> Upload Custom Logo
+                        </label>
+                    </div>
+                    <small style="color: var(--text-secondary); font-size: 0.8rem; display: block; margin-top: 0.5rem;">
+                        Upload custom logo or leave empty for default CETLOGO.png
+                    </small>
+                </div>
+
+                <div class="form-group">
+                    <label for="signatureImage">Signature Image (Optional):</label>
+                    <div class="file-input-wrapper">
+                        <input type="file" id="signatureImage" class="file-input" accept="image/*">
+                        <label for="signatureImage" class="file-input-label" id="signatureLabel">
+                            <i class="fas fa-upload"></i> Upload Signature Image
+                        </label>
+                    </div>
+                    <small style="color: var(--text-secondary); font-size: 0.8rem; display: block; margin-top: 0.5rem;">
+                        Upload a transparent PNG signature image for best results
+                    </small>
+                </div>
+
+                <div class="form-group">
+                    <label>Signature Position & Size:</label>
+                    <div style="margin-bottom: 1rem;">
+                        <label style="font-size: 0.9rem; color: var(--text-secondary);">Size: <span id="signatureSizeValue">150px</span></label>
+                        <input type="range" id="signatureSizeSlider" min="50" max="300" value="150" style="width: 100%; margin-top: 0.5rem; accent-color: var(--primary-accent);">
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+                        <input type="number" id="signatureWidth" placeholder="Width (px)" value="150" style="padding: 8px; border: 2px solid #333; border-radius: 4px; background: var(--secondary-bg); color: var(--text-main);">
+                        <input type="number" id="signatureHeight" placeholder="Height (px)" value="60" style="padding: 8px; border: 2px solid #333; border-radius: 4px; background: var(--secondary-bg); color: var(--text-main);">
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-top: 0.5rem;">
+                        <input type="number" id="signatureX" placeholder="X Position (px)" value="0" style="padding: 8px; border: 2px solid #333; border-radius: 4px; background: var(--secondary-bg); color: var(--text-main);">
+                        <input type="number" id="signatureY" placeholder="Y Position (px)" value="0" style="padding: 8px; border: 2px solid #333; border-radius: 4px; background: var(--secondary-bg); color: var(--text-main);">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="qrCodeImage">QR Code Image (Optional):</label>
+                    <div class="file-input-wrapper">
+                        <input type="file" id="qrCodeImage" class="file-input" accept="image/*">
+                        <label for="qrCodeImage" class="file-input-label" id="qrCodeLabel">
+                            <i class="fas fa-qrcode"></i> Upload Custom QR Code
+                        </label>
+                    </div>
+                    <small style="color: var(--text-secondary); font-size: 0.8rem; display: block; margin-top: 0.5rem;">
+                        Upload custom QR code image or leave empty for auto-generated QR
+                    </small>
+                </div>
+
+                <div class="form-group">
+                    <label>QR Code Position & Size:</label>
+                    <div style="margin-bottom: 1rem;">
+                        <label style="font-size: 0.9rem; color: var(--text-secondary);">Size: <span id="qrSizeValue">80px</span></label>
+                        <input type="range" id="qrSizeSlider" min="40" max="150" value="80" style="width: 100%; margin-top: 0.5rem; accent-color: var(--primary-accent);">
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+                        <input type="number" id="qrWidth" placeholder="Width (px)" value="80" style="padding: 8px; border: 2px solid #333; border-radius: 4px; background: var(--secondary-bg); color: var(--text-main);">
+                        <input type="number" id="qrHeight" placeholder="Height (px)" value="80" style="padding: 8px; border: 2px solid #333; border-radius: 4px; background: var(--secondary-bg); color: var(--text-main);">
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-top: 0.5rem;">
+                        <input type="number" id="qrX" placeholder="X Position (px)" value="0" style="padding: 8px; border: 2px solid #333; border-radius: 4px; background: var(--secondary-bg); color: var(--text-main);">
+                        <input type="number" id="qrY" placeholder="Y Position (px)" value="0" style="padding: 8px; border: 2px solid #333; border-radius: 4px; background: var(--secondary-bg); color: var(--text-main);">
+                    </div>
+                </div>
+
+                <button type="button" class="btn-generate" onclick="generatePDF()">
+                    <i class="fas fa-download"></i> Generate PDF Certificate
+                </button>
+            </form>
+        </div>
+
+        <!-- Certificate Preview -->
+        <div class="certificate-preview">
+            <div class="certificate-frame" id="certificate">
+                <div class="certificate-header">
+                    <div class="cert-logo">
+                        <img id="previewLogo" src="assets/icons/CETLOGO.png" alt="Logo" class="cert-logo-img">
+                    </div>
+                    <div class="cert-id" id="previewCertId">Certificate ID: #SRX2024001</div>
+                </div>
+                
+                <div class="certificate-title">
+                    <h2>Certificate of Completion</h2>
+                    <div class="title-underline"></div>
+                </div>
+                
+                <div class="certificate-body">
+                    <p class="cert-intro">This is to certify that</p>
+                    <h3 class="student-name" id="previewName">John Doe</h3>
+                    <p class="cert-description" id="previewDescription">
+                        has successfully completed the <strong id="previewStream">Web Development Internship Program</strong> 
+                        at Sriox Technologies and demonstrated proficiency in real-world project development.
+                    </p>
+                    
+                    <div class="project-details">
+                        <h4>Project Completed:</h4>
+                        <p id="previewProject">E-commerce Website Development</p>
+                        <div class="completion-date">
+                            <span id="previewDate">Completed on: January 15, 2025</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="certificate-footer">
+                    <div class="signature-section">
+                        <div class="signature">
+                            <div class="signature-line"></div>
+                            <img id="previewSignatureImg" class="signature-image" alt="Signature">
+                            <p id="previewSignatory">Raj Sharma</p>
+                            <span id="previewTitle">CEO, Sriox Technologies</span>
+                        </div>
+                        <div class="qr-section">
+                            <canvas id="qrCode" class="qr-code"></canvas>
+                            <img id="customQrImage" class="qr-code" style="display: none;" alt="Custom QR Code">
+                            <div class="qr-text">Scan to verify on sriox.com</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Second Certificate Template - Optimal Design -->
+        <div class="certificate-template-section">
+            <h2 style="text-align: center; color: var(--primary-accent); margin: 3rem 0 2rem; font-family: var(--heading-font);">
+                <i class="fas fa-star"></i> Recommended Template
+            </h2>
+            <div class="template-preview">
+                <div class="template-frame" id="templateCertificate">
+                    <div class="template-header">
+                        <div class="template-logo">
+                            <img src="assets/icons/CETLOGO.png" alt="Sriox Logo" class="template-logo-img">
+                        </div>
+                        <div class="template-cert-id">Certificate ID: #SRX2024001</div>
+                    </div>
+                    
+                    <div class="template-title">
+                        <h2>Certificate of Completion</h2>
+                        <div class="template-underline"></div>
+                    </div>
+                    
+                    <div class="template-body">
+                        <p class="template-intro">This is to certify that</p>
+                        <h3 class="template-student-name">John Doe</h3>
+                        <p class="template-description">
+                            has successfully completed the <strong>Web Development Internship Program</strong> 
+                            at Sriox Technologies and demonstrated proficiency in real-world project development.
+                        </p>
+                        
+                        <div class="template-project-details">
+                            <h4>Project Completed:</h4>
+                            <p>E-commerce Website Development</p>
+                            <div class="template-completion-date">
+                                <span>Completed on: January 15, 2025</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="template-footer">
+                        <div class="template-signature-section">
+                            <div class="template-signature">
+                                <div class="template-signature-line"></div>
+                                <p>Raj Sharma</p>
+                                <span>CEO, Sriox Technologies</span>
+                            </div>
+                            <div class="template-qr-section">
+                                <div class="template-qr-placeholder">
+                                    <i class="fas fa-qrcode" style="font-size: 3rem; color: #FF7B00;"></i>
+                                </div>
+                                <div class="template-qr-text">Scan to verify on sriox.com</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="template-specs">
+                <h3 style="color: var(--primary-accent); margin: 2rem 0 1rem;">📏 Optimal Measurements:</h3>
+                <div class="specs-grid">
+                    <div class="spec-item">
+                        <strong>Certificate Frame:</strong><br>
+                        Width: 850px | Height: 600px<br>
+                        Padding: 40px | Border: 8px
+                    </div>
+                    <div class="spec-item">
+                        <strong>Logo (Header):</strong><br>
+                        Width: 100px | Height: 100px<br>
+                        Position: X: 0px | Y: 0px
+                    </div>
+                    <div class="spec-item">
+                        <strong>Signature Image:</strong><br>
+                        Width: 180px | Height: 80px<br>
+                        Position: X: 0px | Y: -10px
+                    </div>
+                    <div class="spec-item">
+                        <strong>QR Code:</strong><br>
+                        Width: 90px | Height: 90px<br>
+                        Position: X: 0px | Y: 0px
+                    </div>
+                </div>
+                
+                <button class="apply-template-btn" onclick="applyOptimalSettings()">
+                    <i class="fas fa-magic"></i> Apply These Settings to Generator
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="success-message" id="successMessage">
+        Certificate PDF generated successfully!
+    </div>
+
+    <script>
+        // Real-time preview update
+        document.getElementById('studentName').addEventListener('input', function() {
+            document.getElementById('previewName').textContent = this.value;
+        });
+
+        document.getElementById('certificateId').addEventListener('input', function() {
+            document.getElementById('previewCertId').textContent = `Certificate ID: #${this.value}`;
+        });
+
+        document.getElementById('stream').addEventListener('change', function() {
+            const customStreamInput = document.getElementById('customStream');
+            if (this.value === 'custom') {
+                customStreamInput.style.display = 'block';
+                customStreamInput.required = true;
+                document.getElementById('previewStream').textContent = customStreamInput.value || 'Custom Program';
+            } else {
+                customStreamInput.style.display = 'none';
+                customStreamInput.required = false;
+                document.getElementById('previewStream').textContent = this.value;
+            }
+        });
+
+        document.getElementById('customStream').addEventListener('input', function() {
+            if (document.getElementById('stream').value === 'custom') {
+                document.getElementById('previewStream').textContent = this.value || 'Custom Program';
+            }
+        });
+
+        document.getElementById('monthsWorked').addEventListener('change', function() {
+            const customDurationInput = document.getElementById('customDuration');
+            if (this.value === 'custom') {
+                customDurationInput.style.display = 'block';
+                customDurationInput.required = true;
+            } else {
+                customDurationInput.style.display = 'none';
+                customDurationInput.required = false;
+            }
+        });
+
+        document.getElementById('projectCompleted').addEventListener('input', function() {
+            document.getElementById('previewProject').textContent = this.value;
+        });
+
+        document.getElementById('completionDate').addEventListener('change', function() {
+            const date = new Date(this.value);
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('previewDate').textContent = `Completed on: ${date.toLocaleDateString('en-US', options)}`;
+        });
+
+        document.getElementById('signatoryName').addEventListener('input', function() {
+            document.getElementById('previewSignatory').textContent = this.value;
+        });
+
+        document.getElementById('signatoryTitle').addEventListener('input', function() {
+            document.getElementById('previewTitle').textContent = this.value;
+        });
+
+        // Logo size slider handler
+        document.getElementById('logoSizeSlider').addEventListener('input', function() {
+            const size = this.value;
+            document.getElementById('logoSizeValue').textContent = size + 'px';
+            document.getElementById('logoWidth').value = size;
+            document.getElementById('logoHeight').value = size;
+            document.getElementById('previewLogo').style.width = size + 'px';
+            document.getElementById('previewLogo').style.height = size + 'px';
+        });
+
+        // Signature size slider handler
+        document.getElementById('signatureSizeSlider').addEventListener('input', function() {
+            const size = this.value;
+            document.getElementById('signatureSizeValue').textContent = size + 'px';
+            document.getElementById('signatureWidth').value = size;
+            document.getElementById('signatureHeight').value = Math.round(size * 0.4); // Maintain aspect ratio
+            document.getElementById('previewSignatureImg').style.width = size + 'px';
+            document.getElementById('previewSignatureImg').style.height = Math.round(size * 0.4) + 'px';
+        });
+
+        // QR size slider handler
+        document.getElementById('qrSizeSlider').addEventListener('input', function() {
+            const size = this.value;
+            document.getElementById('qrSizeValue').textContent = size + 'px';
+            document.getElementById('qrWidth').value = size;
+            document.getElementById('qrHeight').value = size;
+            const qrCanvas = document.getElementById('qrCode');
+            const qrImage = document.getElementById('customQrImage');
+            qrCanvas.style.width = size + 'px';
+            qrCanvas.style.height = size + 'px';
+            qrImage.style.width = size + 'px';
+            qrImage.style.height = size + 'px';
+        });
+
+        // Logo image upload handler
+        document.getElementById('logoImage').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const label = document.getElementById('logoLabel');
+            const previewLogo = document.getElementById('previewLogo');
+            
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewLogo.src = e.target.result;
+                    label.textContent = file.name;
+                    label.classList.add('has-file');
+                };
+                reader.readAsDataURL(file);
+            } else {
+                previewLogo.src = 'assets/icons/CETLOGO.png';
+                label.innerHTML = '<i class="fas fa-image"></i> Upload Custom Logo';
+                label.classList.remove('has-file');
+            }
+        });
+
+        // Logo positioning and sizing handlers
+        document.getElementById('logoWidth').addEventListener('input', function() {
+            document.getElementById('previewLogo').style.width = this.value + 'px';
+        });
+
+        document.getElementById('logoHeight').addEventListener('input', function() {
+            document.getElementById('previewLogo').style.height = this.value + 'px';
+        });
+
+        document.getElementById('logoX').addEventListener('input', function() {
+            const logo = document.getElementById('previewLogo');
+            logo.style.position = 'relative';
+            logo.style.left = this.value + 'px';
+        });
+
+        document.getElementById('logoY').addEventListener('input', function() {
+            const logo = document.getElementById('previewLogo');
+            logo.style.position = 'relative';
+            logo.style.top = this.value + 'px';
+        });
+
+        // Signature positioning and sizing handlers
+        document.getElementById('signatureWidth').addEventListener('input', function() {
+            document.getElementById('previewSignatureImg').style.width = this.value + 'px';
+        });
+
+        document.getElementById('signatureHeight').addEventListener('input', function() {
+            document.getElementById('previewSignatureImg').style.height = this.value + 'px';
+        });
+
+        document.getElementById('signatureX').addEventListener('input', function() {
+            const signature = document.getElementById('previewSignatureImg');
+            signature.style.position = 'relative';
+            signature.style.left = this.value + 'px';
+        });
+
+        document.getElementById('signatureY').addEventListener('input', function() {
+            const signature = document.getElementById('previewSignatureImg');
+            signature.style.position = 'relative';
+            signature.style.top = this.value + 'px';
+        });
+
+        // QR Code positioning and sizing handlers
+        document.getElementById('qrWidth').addEventListener('input', function() {
+            const qrCanvas = document.getElementById('qrCode');
+            const qrImage = document.getElementById('customQrImage');
+            qrCanvas.style.width = this.value + 'px';
+            qrImage.style.width = this.value + 'px';
+        });
+
+        document.getElementById('qrHeight').addEventListener('input', function() {
+            const qrCanvas = document.getElementById('qrCode');
+            const qrImage = document.getElementById('customQrImage');
+            qrCanvas.style.height = this.value + 'px';
+            qrImage.style.height = this.value + 'px';
+        });
+
+        document.getElementById('qrX').addEventListener('input', function() {
+            const qrSection = document.querySelector('.qr-section');
+            qrSection.style.position = 'relative';
+            qrSection.style.left = this.value + 'px';
+        });
+
+        document.getElementById('qrY').addEventListener('input', function() {
+            const qrSection = document.querySelector('.qr-section');
+            qrSection.style.position = 'relative';
+            qrSection.style.top = this.value + 'px';
+        });
+
+        // Signature image upload handler
+        document.getElementById('signatureImage').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const label = document.getElementById('signatureLabel');
+            const previewImg = document.getElementById('previewSignatureImg');
+            
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImg.src = e.target.result;
+                    previewImg.classList.add('show');
+                    label.textContent = file.name;
+                    label.classList.add('has-file');
+                };
+                reader.readAsDataURL(file);
+            } else {
+                previewImg.classList.remove('show');
+                label.innerHTML = '<i class="fas fa-upload"></i> Upload Signature Image';
+                label.classList.remove('has-file');
+            }
+        });
+
+        // QR Code image upload handler
+        document.getElementById('qrCodeImage').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const label = document.getElementById('qrCodeLabel');
+            const customQrImage = document.getElementById('customQrImage');
+            const generatedQrCanvas = document.getElementById('qrCode');
+            
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    customQrImage.src = e.target.result;
+                    customQrImage.style.display = 'block';
+                    generatedQrCanvas.style.display = 'none';
+                    label.textContent = file.name;
+                    label.classList.add('has-file');
+                };
+                reader.readAsDataURL(file);
+            } else {
+                customQrImage.style.display = 'none';
+                generatedQrCanvas.style.display = 'block';
+                label.innerHTML = '<i class="fas fa-qrcode"></i> Upload Custom QR Code';
+                label.classList.remove('has-file');
+                generateQRCode(); // Regenerate the default QR code
+            }
+        });
+
+        // Generate QR Code
+        function generateQRCode() {
+            const canvas = document.getElementById('qrCode');
+            const customQrImage = document.getElementById('customQrImage');
+            
+            // Only generate if custom QR is not uploaded
+            if (customQrImage.style.display === 'none' || !customQrImage.src) {
+                const certificateId = document.getElementById('certificateId').value;
+                const verificationUrl = `https://sriox.com/verify?id=${certificateId}`;
+                
+                QRCode.toCanvas(canvas, verificationUrl, {
+                    width: 80,
+                    height: 80,
+                    margin: 1,
+                    color: {
+                        dark: '#333333',
+                        light: '#FFFFFF'
+                    }
+                }, function(error) {
+                    if (error) console.error('QR Code generation failed:', error);
+                });
+            }
+        }
+
+        // PDF Generation Function
+        async function generatePDF() {
+            const button = document.querySelector('.btn-generate');
+            const certificate = document.getElementById('certificate');
+            
+            // Add loading state
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating PDF...';
+            button.disabled = true;
+            
+            try {
+                // Create a temporary container for PDF generation with higher resolution
+                const tempContainer = document.createElement('div');
+                tempContainer.style.position = 'absolute';
+                tempContainer.style.left = '-9999px';
+                tempContainer.style.top = '0';
+                tempContainer.style.width = '1000px';
+                tempContainer.style.height = '700px';
+                tempContainer.style.background = 'white';
+                tempContainer.style.padding = '40px';
+                document.body.appendChild(tempContainer);
+                
+                // Clone the certificate
+                const clonedCertificate = certificate.cloneNode(true);
+                clonedCertificate.style.transform = 'none';
+                clonedCertificate.style.width = '100%';
+                clonedCertificate.style.height = '100%';
+                clonedCertificate.style.maxWidth = 'none';
+                tempContainer.appendChild(clonedCertificate);
+                
+                // Generate canvas with high quality
+                const canvas = await html2canvas(tempContainer, {
+                    scale: 2,
+                    useCORS: true,
+                    backgroundColor: '#ffffff',
+                    width: 1000,
+                    height: 700
+                });
+                
+                // Create PDF in landscape
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF({
+                    orientation: 'landscape',
+                    unit: 'mm',
+                    format: 'a4'
+                });
+                
+                const imgData = canvas.toDataURL('image/png');
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pdfHeight = pdf.internal.pageSize.getHeight();
+                
+                // Calculate dimensions to fit the certificate properly
+                const imgAspectRatio = 1000 / 700;
+                const pdfAspectRatio = pdfWidth / pdfHeight;
+                
+                let finalWidth, finalHeight, x, y;
+                
+                if (imgAspectRatio > pdfAspectRatio) {
+                    finalWidth = pdfWidth;
+                    finalHeight = pdfWidth / imgAspectRatio;
+                    x = 0;
+                    y = (pdfHeight - finalHeight) / 2;
+                } else {
+                    finalHeight = pdfHeight;
+                    finalWidth = pdfHeight * imgAspectRatio;
+                    x = (pdfWidth - finalWidth) / 2;
+                    y = 0;
+                }
+                
+                pdf.addImage(imgData, 'PNG', x, y, finalWidth, finalHeight);
+                
+                // Generate filename
+                const studentName = document.getElementById('studentName').value.replace(/\s+/g, '_');
+                const certId = document.getElementById('certificateId').value;
+                const filename = `Sriox_Certificate_${studentName}_${certId}.pdf`;
+                
+                // Download PDF
+                pdf.save(filename);
+                
+                // Clean up
+                document.body.removeChild(tempContainer);
+                
+                // Show success message
+                showSuccessMessage();
+                
+            } catch (error) {
+                console.error('Error generating PDF:', error);
+                alert('Error generating PDF. Please try again.');
+            } finally {
+                // Reset button
+                button.innerHTML = '<i class="fas fa-download"></i> Generate PDF Certificate';
+                button.disabled = false;
+            }
+        }
+
+        function showSuccessMessage() {
+            const message = document.getElementById('successMessage');
+            message.classList.add('show');
+            setTimeout(() => {
+                message.classList.remove('show');
+            }, 3000);
+        }
+
+        // Initialize preview with default values
+        document.addEventListener('DOMContentLoaded', function() {
+            // Trigger initial preview updates
+            document.getElementById('studentName').dispatchEvent(new Event('input'));
+            document.getElementById('certificateId').dispatchEvent(new Event('input'));
+            document.getElementById('stream').dispatchEvent(new Event('change'));
+            document.getElementById('projectCompleted').dispatchEvent(new Event('input'));
+            document.getElementById('completionDate').dispatchEvent(new Event('change'));
+            document.getElementById('signatoryName').dispatchEvent(new Event('input'));
+            document.getElementById('signatoryTitle').dispatchEvent(new Event('input'));
+            
+            // Generate initial QR code
+            generateQRCode();
+            
+            // Update QR code when certificate ID changes
+            document.getElementById('certificateId').addEventListener('input', function() {
+                setTimeout(generateQRCode, 100);
+            });
+        });
+
+        // Apply optimal template settings
+        function applyOptimalSettings() {
+            // Logo settings
+            document.getElementById('logoWidth').value = 100;
+            document.getElementById('logoHeight').value = 100;
+            document.getElementById('logoX').value = 0;
+            document.getElementById('logoY').value = 0;
+            document.getElementById('logoSizeSlider').value = 100;
+            document.getElementById('logoSizeValue').textContent = '100px';
+            
+            // Signature settings
+            document.getElementById('signatureWidth').value = 180;
+            document.getElementById('signatureHeight').value = 80;
+            document.getElementById('signatureX').value = 0;
+            document.getElementById('signatureY').value = -10;
+            document.getElementById('signatureSizeSlider').value = 180;
+            document.getElementById('signatureSizeValue').textContent = '180px';
+            
+            // QR Code settings
+            document.getElementById('qrWidth').value = 90;
+            document.getElementById('qrHeight').value = 90;
+            document.getElementById('qrX').value = 0;
+            document.getElementById('qrY').value = 0;
+            document.getElementById('qrSizeSlider').value = 90;
+            document.getElementById('qrSizeValue').textContent = '90px';
+            
+            // Apply the changes to preview
+            const logo = document.getElementById('previewLogo');
+            logo.style.width = '100px';
+            logo.style.height = '100px';
+            logo.style.left = '0px';
+            logo.style.top = '0px';
+            
+            const signature = document.getElementById('previewSignatureImg');
+            signature.style.width = '180px';
+            signature.style.height = '80px';
+            signature.style.left = '0px';
+            signature.style.top = '-10px';
+            
+            const qrCanvas = document.getElementById('qrCode');
+            const qrImage = document.getElementById('customQrImage');
+            qrCanvas.style.width = '90px';
+            qrCanvas.style.height = '90px';
+            qrImage.style.width = '90px';
+            qrImage.style.height = '90px';
+            
+            const qrSection = document.querySelector('.qr-section');
+            qrSection.style.left = '0px';
+            qrSection.style.top = '0px';
+            
+            // Show success message
+            showSuccessMessage('Optimal settings applied successfully!');
+        }
+
+        function showSuccessMessage(message = 'Certificate PDF generated successfully!') {
+            const messageEl = document.getElementById('successMessage');
+            messageEl.textContent = message;
+            messageEl.classList.add('show');
+            setTimeout(() => {
+                messageEl.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

@@ -7,25 +7,48 @@
     <!-- SEO Meta Tags -->
     <title>Sriox - Smart, Rapid, Innovative Digital Solutions | Web Development & Technology Services</title>
     <meta name="description" content="Sriox delivers exceptional digital solutions with cutting-edge web development, innovative technology services, and smart business solutions. Transform your business with our rapid, reliable expertise.">
-    <meta name="keywords" content="Sriox, digital solutions, web development, technology services, smart business solutions, innovative technology, rapid development, web design, software development, digital transformation">
+    <meta name="keywords" content="Sriox, digital solutions, web development, technology services, smart business solutions, innovative technology, rapid development, web design, software development, digital transformation, internships, career opportunities">
     <meta name="author" content="Sriox Team">
-    <meta name="robots" content="index, follow">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
     <meta name="language" content="en">
     <meta name="revisit-after" content="7 days">
+    <meta name="rating" content="general">
+    <meta name="distribution" content="global">
+    <meta name="coverage" content="worldwide">
+    <meta name="target" content="all">
+    <meta name="audience" content="all">
+    <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    
+    <!-- Geo Meta Tags -->
+    <meta name="geo.region" content="Global">
+    <meta name="geo.placename" content="Worldwide">
+    
+    <!-- Business/Contact Info -->
+    <meta name="contact" content="contact@sriox.com">
+    <meta name="reply-to" content="contact@sriox.com">
     
     <!-- Open Graph Meta Tags for Social Media -->
     <meta property="og:title" content="Sriox - Smart, Rapid, Innovative Digital Solutions">
     <meta property="og:description" content="Transform your business with Sriox's cutting-edge digital solutions. We deliver exceptional web development and technology services with smart, rapid, and innovative approaches.">
     <meta property="og:image" content="https://sriox.com/assets/icons/logosriox.png">
+    <meta property="og:image:width" content="512">
+    <meta property="og:image:height" content="512">
+    <meta property="og:image:alt" content="Sriox Logo - Digital Solutions Company">
     <meta property="og:url" content="https://sriox.com/">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Sriox">
+    <meta property="og:locale" content="en_US">
+    <meta property="article:author" content="Sriox Team">
+    <meta property="article:publisher" content="Sriox">
     
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Sriox - Smart, Rapid, Innovative Digital Solutions">
     <meta name="twitter:description" content="Transform your business with Sriox's cutting-edge digital solutions and innovative technology services.">
     <meta name="twitter:image" content="https://sriox.com/assets/icons/logosriox.png">
+    <meta name="twitter:image:alt" content="Sriox Logo - Digital Solutions Company">
+    <meta name="twitter:creator" content="@sriox">
+    <meta name="twitter:site" content="@sriox">
     
     <!-- Favicon and App Icons -->
     <link rel="icon" type="image/x-icon" href="assets/icons/favicon.ico">
@@ -43,10 +66,23 @@
     <!-- Canonical URL -->
     <link rel="canonical" href="https://sriox.com/">
     
+    <!-- Sitemap Reference -->
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml">
+    
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@400;500;600&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+    
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="css/global.css" as="style">
+    <link rel="preload" href="css/home.css" as="style">
+    <link rel="preload" href="assets/icons/logosriox.png" as="image">
+    
+    <!-- DNS Prefetch for External Resources -->
+    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
     
     <!-- CSS -->
     <link rel="stylesheet" href="css/global.css">
@@ -61,31 +97,145 @@
         "@context": "https://schema.org",
         "@type": "Organization",
         "name": "Sriox",
-        "description": "Smart, Rapid, Innovative digital solutions company specializing in web development and technology services",
+        "alternateName": "Sriox Digital Solutions",
+        "description": "Smart, Rapid, Innovative digital solutions company specializing in web development, technology services, and career opportunities",
         "url": "https://sriox.com/",
         "logo": "https://sriox.com/assets/icons/logosriox.png",
+        "image": "https://sriox.com/assets/icons/logosriox.png",
         "foundingDate": "2024",
         "slogan": "Smart, Rapid, Innovative",
-        "contactPoint": {
-            "@type": "ContactPoint",
-            "contactType": "customer service",
-            "url": "https://sriox.com/about.html"
-        },
+        "email": "contact@sriox.com",
+        "telephone": "+1-XXX-XXX-XXXX",
+        "contactPoint": [
+            {
+                "@type": "ContactPoint",
+                "contactType": "customer service",
+                "url": "https://sriox.com/contact.html",
+                "email": "contact@sriox.com"
+            },
+            {
+                "@type": "ContactPoint",
+                "contactType": "technical support",
+                "url": "https://sriox.com/contact.html"
+            },
+            {
+                "@type": "ContactPoint",
+                "contactType": "sales",
+                "url": "https://sriox.com/contact.html"
+            }
+        ],
         "sameAs": [
             "https://github.com/siddu-k/sriox_landingpage"
         ],
         "address": {
             "@type": "PostalAddress",
-            "addressCountry": "Global"
+            "addressCountry": "Global",
+            "addressRegion": "Worldwide"
         },
-        "offers": {
-            "@type": "Offer",
-            "itemOffered": {
-                "@type": "Service",
-                "name": "Digital Solutions",
-                "description": "Web development, technology consulting, and digital transformation services"
+        "knowsAbout": [
+            "Web Development",
+            "Digital Solutions",
+            "Technology Services",
+            "Software Development",
+            "Digital Transformation",
+            "Career Development",
+            "Internships"
+        ],
+        "serviceArea": {
+            "@type": "GeoCircle",
+            "geoMidpoint": {
+                "@type": "GeoCoordinates",
+                "latitude": "0",
+                "longitude": "0"
+            },
+            "geoRadius": "20000000"
+        },
+        "offers": [
+            {
+                "@type": "Offer",
+                "itemOffered": {
+                    "@type": "Service",
+                    "name": "Web Development Services",
+                    "description": "Professional web development and design services",
+                    "serviceType": "Web Development"
+                }
+            },
+            {
+                "@type": "Offer",
+                "itemOffered": {
+                    "@type": "Service",
+                    "name": "Digital Solutions",
+                    "description": "Comprehensive digital transformation and technology consulting services",
+                    "serviceType": "Technology Consulting"
+                }
+            },
+            {
+                "@type": "Offer",
+                "itemOffered": {
+                    "@type": "Service",
+                    "name": "Career Opportunities",
+                    "description": "Internships and career opportunities in technology",
+                    "serviceType": "Career Development"
+                }
             }
+        ],
+        "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Sriox Services",
+            "itemListElement": [
+                {
+                    "@type": "OfferCatalog",
+                    "name": "Web Development",
+                    "description": "Custom web development solutions"
+                },
+                {
+                    "@type": "OfferCatalog",
+                    "name": "Digital Solutions",
+                    "description": "End-to-end digital transformation services"
+                },
+                {
+                    "@type": "OfferCatalog",
+                    "name": "Technology Consulting",
+                    "description": "Expert technology guidance and solutions"
+                }
+            ]
         }
+    }
+    </script>
+
+    <!-- Breadcrumb Schema for Homepage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://sriox.com/"
+            }
+        ]
+    }
+    </script>
+
+    <!-- Website Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Sriox",
+        "alternateName": "Sriox Digital Solutions",
+        "url": "https://sriox.com/",
+        "description": "Smart, Rapid, Innovative digital solutions for modern businesses",
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://sriox.com/search?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+        },
+        "sameAs": [
+            "https://github.com/siddu-k/sriox_landingpage"
+        ]
     }
     </script>
 </head>
@@ -698,7 +848,7 @@
             <div class="footer-bottom">
                 <div class="social-links">
                     <a href="https://www.linkedin.com/company/sriox/" aria-label="LinkedIn" target="_blank"><i class="fab fa-linkedin"></i></a>
-                    <a href="#" aria-label="Instagram" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.instagram.com/srioxhq/" aria-label="Instagram" target="_blank"><i class="fab fa-instagram"></i></a>
                 </div>
                 <p>&copy; 2025 Sriox Technologies. All Rights Reserved. | Made with ❤️ by Sriox Team</p>
             </div>

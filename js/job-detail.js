@@ -129,9 +129,17 @@ class JobDetailPage {
 
     loadJobFromURL() {
         const urlParams = new URLSearchParams(window.location.search);
-        this.jobId = urlParams.get('id');
+        const rawJobId = urlParams.get('id');
+        this.jobId = rawJobId ? decodeURIComponent(rawJobId) : null;
+        
+        console.log('🔍 Job detail page loaded with:', {
+            rawJobId: rawJobId,
+            decodedJobId: this.jobId,
+            fullURL: window.location.href
+        });
         
         if (!this.jobId) {
+            console.warn('❌ No job ID found in URL');
             this.showJobNotFound();
             return;
         }
@@ -144,14 +152,23 @@ class JobDetailPage {
             console.log('🔄 Loading job details for ID:', jobId);
             
             // Fetch job from Firebase using REST API
-            const response = await fetch(`https://firestore.googleapis.com/v1/projects/sriox-f5ae4/databases/(default)/documents/jobs/${jobId}`);
+            const apiUrl = `https://firestore.googleapis.com/v1/projects/sriox-f5ae4/databases/(default)/documents/jobs/${jobId}`;
+            console.log('📡 Making request to:', apiUrl);
+            
+            const response = await fetch(apiUrl);
+            
+            console.log('📈 Response status:', response.status);
+            console.log('📊 Response ok:', response.ok);
             
             if (!response.ok) {
                 if (response.status === 404) {
+                    console.warn('❌ Job not found (404)');
                     this.showJobNotFound();
                     return;
                 }
-                throw new Error(`Failed to fetch job: ${response.status}`);
+                const errorText = await response.text();
+                console.error('❌ Firebase response error:', errorText);
+                throw new Error(`Failed to fetch job: ${response.status} - ${errorText}`);
             }
             
             const data = await response.json();
@@ -325,8 +342,12 @@ class JobDetailPage {
     openApplicationModal() {
         if (!this.jobData) return;
         
-        this.applicationModal.style.display = 'flex';
-        document.body.style.overflow = 'hidden';
+        // Use Tally form instead of old modal
+        if (typeof openApplicationForm === 'function') {
+            openApplicationForm(this.jobData.title);
+        } else {
+            console.warn('Tally form function not available');
+        }
     }
 
     closeModal() {

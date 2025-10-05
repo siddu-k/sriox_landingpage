@@ -29,6 +29,9 @@
     
     <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Tally Form Widget -->
+    <script src="https://tally.so/widgets/embed.js"></script>
 </head>
 <body>
     <!-- Navigation -->
@@ -252,180 +255,70 @@
             <div class="footer-bottom">
                 <div class="social-links">
                     <a href="https://www.linkedin.com/company/sriox/" aria-label="LinkedIn" target="_blank"><i class="fab fa-linkedin"></i></a>
-                    <a href="#" aria-label="Instagram" target="_blank"><i class="fab fa-instagram"></i></a>
+                                        <a href="https://www.instagram.com/srioxhq/" aria-label="Instagram" target="_blank"><i class="fab fa-instagram"></i></a>
                 </div>
                 <p>&copy; 2025 Sriox Technologies. All Rights Reserved. | Made with ❤️ by Sriox Team</p>
             </div>
         </div>
     </footer>
 
-    <!-- Firebase SDKs -->
-    <script type="module" src="https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js"></script>
-    <script type="module" src="https://www.gstatic.com/firebasejs/12.3.0/firebase-database.js"></script>
-    <script type="module" src="https://www.gstatic.com/firebasejs/12.3.0/firebase-analytics.js"></script>
-    
-    <!-- Google APIs for Drive Integration -->
-    <script src="https://apis.google.com/js/api.js"></script>
-    <script src="https://apis.google.com/js/platform.js"></script>
-    
-    <!-- Application Form Modal -->
-    <div id="application-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="application-modal-title">Apply for Position</h3>
-                <span class="close-modal">&times;</span>
-            </div>
-            <form id="application-form" class="application-form-content">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="applicant-name">Full Name</label>
-                        <input type="text" id="applicant-name" name="name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="applicant-email">Email Address</label>
-                        <input type="email" id="applicant-email" name="email" required>
-                    </div>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="applicant-linkedin">LinkedIn Profile</label>
-                        <input type="url" id="applicant-linkedin" name="linkedin" placeholder="https://linkedin.com/in/yourprofile">
-                    </div>
-                    <div class="form-group">
-                        <label for="applicant-github">GitHub Profile</label>
-                        <input type="url" id="applicant-github" name="github" placeholder="https://github.com/yourusername">
-                    </div>
-                </div>
+    <!-- Tally Forms Script -->
+    <script src="https://tally.so/widgets/embed.js"></script>
 
-                <div class="form-group">
-                    <label for="applicant-discord">Discord Tag</label>
-                    <input type="text" id="applicant-discord" name="discord" placeholder="username#1234">
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="applicant-phone">Phone Number</label>
-                        <input type="tel" id="applicant-phone" name="phone" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="applicant-location">Current Location</label>
-                        <input type="text" id="applicant-location" name="location" placeholder="City, State" required>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="applicant-address">Address</label>
-                    <input type="text" id="applicant-address" name="address" placeholder="Street address" required>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="applicant-state">State/Province</label>
-                        <input type="text" id="applicant-state" name="state" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="applicant-country">Country</label>
-                        <input type="text" id="applicant-country" name="country" required>
-                    </div>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="applicant-experience">Years of Experience</label>
-                        <select id="applicant-experience" name="experience" required>
-                            <option value="">Select Experience</option>
-                            <option value="0-1">0-1 years</option>
-                            <option value="2-3">2-3 years</option>
-                            <option value="4-5">4-5 years</option>
-                            <option value="6-8">6-8 years</option>
-                            <option value="9+">9+ years</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="applicant-notice">Notice Period</label>
-                        <select id="applicant-notice" name="noticePeriod" required>
-                            <option value="">Select Notice Period</option>
-                            <option value="immediate">Immediate</option>
-                            <option value="15-days">15 days</option>
-                            <option value="1-month">1 month</option>
-                            <option value="2-months">2 months</option>
-                            <option value="3-months">3 months</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="applicant-portfolio">Portfolio/Website (Optional)</label>
-                    <input type="url" id="applicant-portfolio" name="portfolio" placeholder="https://yourportfolio.com">
-                </div>
-                
-                <div class="form-group">
-                    <label for="applicant-skills">Key Skills</label>
-                    <textarea id="applicant-skills" name="skills" rows="3" required placeholder="List your key technical skills separated by commas..."></textarea>
-                </div>
-                
-                <div class="form-group">
-                    <label for="applicant-cover">Cover Letter</label>
-                    <textarea id="applicant-cover" name="coverLetter" rows="5" required placeholder="Tell us why you're interested in this position and what makes you a great fit..."></textarea>
-                </div>
-                
-                <div class="form-group">
-                    <label for="applicant-resume">Resume/CV</label>
-                    <div class="resume-upload-container">
-                        <!-- Google Drive Link Input -->
-                        <div class="google-drive-link">
-                            <input type="url" id="resume-drive-link" name="resumeDriveLink" 
-                                   placeholder="https://drive.google.com/file/d/your-file-id/view?usp=sharing" 
-                                   class="form-input drive-link-input">
-                            <p class="upload-description">
-                                <i class="fas fa-info-circle"></i>
-                                Upload your resume to Google Drive, make it shareable ("Anyone with the link can view"), and paste the link here.
-                                <a href="#" onclick="showDriveInstructions()" class="help-link">Need help?</a>
-                            </p>
-                            <div id="drive-link-status" class="upload-status"></div>
-                        </div>
-                    </div>
+    <!-- Simplified Application Integration with Tally -->
+    <script>
+        // Tally form configuration
+        const TALLY_FORM_ID = 'wvoBVv';
+        
+        // Function to open Tally application form
+        function openApplicationForm(jobTitle = '') {
+            const options = {
+                layout: 'modal',
+                width: 600,
+                height: 700,
+                autoClose: 3000,
+                alignLeft: false,
+                alignTop: false,
+                hiddenFields: {
+                    position: jobTitle,
+                    source: 'sriox-careers'
+                },
+                onOpen: () => {
+                    console.log('Application form opened for:', jobTitle);
+                },
+                onClose: () => {
+                    console.log('Application form closed');
+                },
+                onSubmit: (payload) => {
+                    console.log('Application submitted:', payload);
+                    // You can add analytics or other tracking here
+                }
+            };
+            
+            Tally.openPopup(TALLY_FORM_ID, options);
+        }
+        
+        // Add event listeners when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle apply buttons (these will be created dynamically)
+            document.addEventListener('click', function(e) {
+                if (e.target.matches('.apply-btn, .btn-apply, .quick-apply, [data-action="apply"]')) {
+                    e.preventDefault();
+                    e.stopPropagation();
                     
-                    <!-- Remove the hidden fields as we're using the main input now -->
-                </div>
-                
-                <div class="internship-notice">
-                    <div class="notice-content">
-                        <i class="fas fa-info-circle"></i>
-                        <div class="notice-text">
-                            <h4>Important Notice for Internship Positions</h4>
-                            <p>Please note that <strong>internship positions are unpaid</strong>. These opportunities are designed to provide valuable experience, mentorship, and skill development in your chosen field.</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="form-group checkbox-group">
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="privacy-consent" name="privacyConsent" required>
-                        <span class="checkmark"></span>
-                        I agree to the <a href="privacy-policy.html" target="_blank">Privacy Policy</a> and consent to my data being processed for this application.
-                    </label>
-                </div>
-                
-                <div class="modal-actions">
-                    <button type="button" class="btn btn-secondary cancel-btn">Cancel</button>
-                    <button type="submit" class="btn btn-primary" id="submit-application">
-                        <span class="submit-text">Submit Application</span>
-                        <span class="submit-loading" style="display: none;">
-                            <i class="fas fa-spinner fa-spin"></i> Submitting...
-                        </span>
-                    </button>
-                </div>
-                
-                <input type="hidden" id="job-id" name="jobId">
-                <input type="hidden" id="job-title-hidden" name="jobTitle">
-            </form>
-        </div>
-    </div>
+                    const jobTitle = e.target.getAttribute('data-job-title') || 
+                                   e.target.closest('.job-card')?.querySelector('.job-title')?.textContent ||
+                                   e.target.closest('.position-card')?.querySelector('h3')?.textContent ||
+                                   'Position';
+                    
+                    console.log('Apply button clicked for:', jobTitle);
+                    openApplicationForm(jobTitle);
+                }
+            });
+        });
+    </script>
 
+    <script src="js/careers.js"></script>
     <script src="js/main.js"></script>
-    <script src="js/drive-instructions.js"></script>
-    <script type="module" src="js/careers.js"></script>
 </body>
 </html>

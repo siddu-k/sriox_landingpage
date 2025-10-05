@@ -389,6 +389,38 @@
         </div>
     </footer>
 
+    <!-- Tally Forms Script -->
+    <script src="https://tally.so/widgets/embed.js"></script>
+
+    <script>
+        // Tally form integration for job applications
+        function openApplicationForm(jobTitle = 'Position') {
+            const TALLY_FORM_ID = 'wvoBVv';
+            
+            const options = {
+                layout: 'modal',
+                width: 600,
+                height: 700,
+                autoClose: 3000,
+                hiddenFields: {
+                    position: jobTitle,
+                    source: 'sriox-careers'
+                },
+                onOpen: () => {
+                    console.log('Application form opened for:', jobTitle);
+                },
+                onClose: () => {
+                    console.log('Application form closed');
+                },
+                onSubmit: (payload) => {
+                    console.log('Application submitted:', payload);
+                }
+            };
+            
+            Tally.openPopup(TALLY_FORM_ID, options);
+        }
+    </script>
+
     <!-- Scripts -->
     <script src="js/main.js"></script>
     <script src="js/drive-instructions.js"></script>

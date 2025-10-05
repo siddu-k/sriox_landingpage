@@ -81,7 +81,9 @@ class CareersPage {
             'application-modal-title': this.modalTitle,
             'job-id': this.jobIdInput,
             'job-title-hidden': this.jobTitleInput,
-            'submit-application': this.submitBtn
+            'submit-application': this.submitBtn,
+            'submit-text': this.submitText,
+            'submit-loading': this.submitLoading
         };
         
         const missing = Object.entries(elements)
@@ -146,17 +148,25 @@ class CareersPage {
             console.log('🔄 Loading jobs from Firebase...');
             
             // Use REST API to fetch jobs from Firebase (same approach as working dashboard)
-            const response = await fetch('https://firestore.googleapis.com/v1/projects/sriox-f5ae4/databases/(default)/documents/jobs');
+            const apiUrl = 'https://firestore.googleapis.com/v1/projects/sriox-f5ae4/databases/(default)/documents/jobs';
+            console.log('📡 Making request to:', apiUrl);
+            
+            const response = await fetch(apiUrl);
+            
+            console.log('📈 Response status:', response.status);
+            console.log('📊 Response ok:', response.ok);
             
             if (!response.ok) {
-                throw new Error(`Firebase request failed: ${response.status}`);
+                const errorText = await response.text();
+                console.error('❌ Firebase response error:', errorText);
+                throw new Error(`Firebase request failed: ${response.status} - ${errorText}`);
             }
             
             const data = await response.json();
             console.log('📦 Raw Firebase response:', data);
             
             if (!data.documents) {
-                console.log('📝 No jobs found in Firebase');
+                console.log('📝 No jobs found in Firebase - showing empty state');
                 return [];
             }
             
@@ -166,7 +176,13 @@ class CareersPage {
                 const pathParts = doc.name.split('/');
                 const id = pathParts[pathParts.length - 1];
                 
-                return {
+                console.log('🔧 Processing document:', {
+                    fullPath: doc.name,
+                    extractedId: id,
+                    pathParts: pathParts
+                });
+                
+                const job = {
                     id: id,
                     title: fields.title?.stringValue || '',
                     type: fields.type?.stringValue || '',
@@ -180,16 +196,25 @@ class CareersPage {
                     benefits: fields.benefits?.stringValue || '',
                     deadline: fields.deadline?.timestampValue || null
                 };
+                
+                console.log('🔧 Transformed job:', job);
+                return job;
             });
             
             // Filter only active jobs for public careers page
             const activeJobs = jobs.filter(job => job.status === 'active');
-            console.log(`✅ Loaded ${activeJobs.length} active jobs from Firebase`);
+            console.log(`✅ Loaded ${activeJobs.length} active jobs from Firebase (${jobs.length} total)`);
             
             return activeJobs;
             
         } catch (error) {
             console.error('❌ Error fetching jobs from Firebase:', error);
+            console.error('❌ Full error details:', {
+                message: error.message,
+                stack: error.stack,
+                name: error.name
+            });
+            
             // Return empty array instead of mock data on error
             return [];
         }
@@ -229,8 +254,13 @@ class CareersPage {
         this.careersPositions.querySelectorAll('.quick-apply').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.stopPropagation();
-                const jobId = e.target.closest('.quick-apply').dataset.jobId;
-                this.openApplicationModal(jobId);
+                const jobTitle = e.target.closest('.position-card').querySelector('h4').textContent;
+                // Use the Tally form function that's already in apply.html
+                if (typeof openApplicationForm === 'function') {
+                    openApplicationForm(jobTitle);
+                } else {
+                    console.warn('Tally form function not available');
+                }
             });
         });
         
@@ -270,11 +300,11 @@ class CareersPage {
                 
                 <div class="position-footer">
                     <div class="position-actions">
-                        <button class="view-details-btn" data-job-id="${job.id}" onclick="event.stopPropagation(); window.location.href='job-detail.html?id=${job.id}'">
+                        <button class="view-details-btn" data-job-id="${job.id}" onclick="event.stopPropagation(); console.log('Navigating to job detail with ID:', '${job.id}'); window.location.href='job-detail.html?id=${encodeURIComponent(job.id)}'">
                             <i class="fas fa-eye"></i>
                             View Details
                         </button>
-                        <button class="apply-btn quick-apply" data-job-id="${job.id}" onclick="event.stopPropagation();">
+                        <button class="apply-btn quick-apply" data-job-id="${job.id}" data-job-title="${job.title}" onclick="event.stopPropagation();">
                             <i class="fas fa-paper-plane"></i>
                             Quick Apply
                         </button>
@@ -644,19 +674,36 @@ class CareersPage {
     }
 
     setSubmitLoading(loading) {
+        if (!this.submitBtn) {
+            console.warn('Submit button not found');
+            return;
+        }
+        
         this.submitBtn.disabled = loading;
         
-        if (loading) {
-            this.submitText.style.display = 'none';
-            this.submitLoading.style.display = 'inline-flex';
+        if (this.submitText && this.submitLoading) {
+            // Use the structured button with separate text and loading elements
+            if (loading) {
+                this.submitText.style.display = 'none';
+                this.submitLoading.style.display = 'inline-flex';
+            } else {
+                this.submitText.style.display = 'inline';
+                this.submitLoading.style.display = 'none';
+            }
         } else {
-            this.submitText.style.display = 'inline';
-            this.submitLoading.style.display = 'none';
+            // Fallback: use simple text content change
+            if (loading) {
+                this.submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+            } else {
+                this.submitBtn.innerHTML = 'Submit Application';
+            }
         }
     }
 
     resetSubmitButton() {
-        this.setSubmitLoading(false);
+        if (this.submitBtn) {
+            this.setSubmitLoading(false);
+        }
     }
 
     showSuccessMessage(message) {
@@ -722,12 +769,16 @@ class CareersPage {
 
     async handleFormSubmission(formData) {
         try {
-            const submitButton = this.applicationForm.querySelector('.submit-button');
+            const submitButton = document.getElementById('submit-application');
+            if (!submitButton) {
+                console.error('Submit button not found!');
+                return;
+            }
+            
             const originalText = submitButton.textContent;
             
-            // Show loading state
-            submitButton.textContent = 'Submitting...';
-            submitButton.disabled = true;
+            // Show loading state using the safer method
+            this.setSubmitLoading(true);
             
             // Check which upload method was used
             const driveLink = formData.get('resumeDriveLink');
@@ -793,8 +844,7 @@ class CareersPage {
             }
             
             // Reset button
-            submitButton.textContent = originalText;
-            submitButton.disabled = false;
+            this.setSubmitLoading(false);
             
             // Optional: Close modal or redirect
             setTimeout(() => {
@@ -806,9 +856,7 @@ class CareersPage {
             this.showErrorMessage('Failed to submit application. Please try again.');
             
             // Reset button
-            const submitButton = this.applicationForm.querySelector('.submit-button');
-            submitButton.textContent = 'Submit Application';
-            submitButton.disabled = false;
+            this.setSubmitLoading(false);
         }
     }
 
