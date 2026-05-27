@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App Publishing Policies - Sriox</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&family=Inter:wght@400;500;600&family=Montserrat:wght@800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="assets/icons/logosriox.png" alt="Sriox Logo" class="nav-logo-img">
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="services.html" class="nav-link">Services</a></li>
+                <li><a href="certificate.html" class="nav-link">Internship</a></li>
+                <li><a href="testimonials.html" class="nav-link">Testimonials</a></li>
+                <li><a href="apply.html" class="nav-link">Careers</a></li>
+                <li class="nav-dropdown">
+                    <a href="#" class="nav-link dropdown-toggle active">Legal <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="terms.html">Terms & Conditions</a></li>
+                        <li><a href="intern-policy.html">Intern Policies</a></li>
+                        <li><a href="apps-policy.html">App Publishing Policy</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="nav-actions">
+                <a href="contact.html" class="btn btn-primary nav-cta">Contact</a>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="legal-page">
+        <div class="container">
+            <div class="legal-content">
+                <h1>App Publishing Policy (Google Play)</h1>
+                <p class="last-updated">Last updated: May 2026</p>
+
+                <div class="legal-section">
+                    <h2>Overview</h2>
+                    <p>This document outlines Sriox's internal requirements and best practices for publishing mobile applications to the Google Play Store. It is intended to help ensure compliance with the Google Play Developer Program Policies and to streamline the review and release process.</p>
+                    <p>Developers should also consult the official Google Play policies: <a href="https://play.google.com/about/developer-content-policy/" target="_blank" rel="noopener">Google Play Developer Policy Center</a>.</p>
+                </div>
+
+                <div class="legal-section">
+                    <h2>1. App Content & Prohibited Items</h2>
+                    <ul>
+                        <li>No content that promotes hate, violence, illegal activity, or sexual exploitation.</li>
+                        <li>Do not include copyrighted content without explicit permission or a valid license.</li>
+                        <li>Apps that facilitate illegal activity, gambling (where restricted), or sale of regulated goods are not allowed.</li>
+                        <li>Ensure user-generated content is moderated to prevent policy violations.</li>
+                    </ul>
+                </div>
+
+                <div class="legal-section">
+                    <h2>2. Privacy, Data Collection & User Consent</h2>
+                    <ul>
+                        <li>Clearly disclose all data collection and usage in the Privacy Policy; link it from the Play Store listing and within the app.</li>
+                        <li>Request only the permissions required for core functionality; justify sensitive permissions in the Play Console.</li>
+                        <li>Obtain explicit consent before collecting personal or sensitive user data; provide opt-outs where feasible.</li>
+                        <li>Securely store and transmit user data using industry-standard encryption.</li>
+                    </ul>
+                </div>
+
+                <div class="legal-section">
+                    <h2>3. Ads, Monetization & In-App Purchases</h2>
+                    <ul>
+                        <li>Disclose when ads are shown and do not use deceptive ad placements that cause accidental clicks.</li>
+                        <li>Use Google Play Billing for selling digital goods and subscriptions unless explicitly exempt.</li>
+                        <li>Provide clear refund and subscription management instructions.</li>
+                    </ul>
+                </div>
+
+                <div class="legal-section">
+                    <h2>4. Intellectual Property</h2>
+                    <ul>
+                        <li>Do not use third-party trademarks, logos, or copyrighted material without permission.</li>
+                        <li>Maintain records of licenses for third-party SDKs and assets used in the app.</li>
+                    </ul>
+                </div>
+
+                <div class="legal-section">
+                    <h2>5. Permissions & Platform Requirements</h2>
+                    <ul>
+                        <li>Follow the principle of least privilege for runtime permissions (location, camera, microphone, contacts, etc.).</li>
+                        <li>Declare only necessary permissions in the manifest and provide clear in-app explanations.</li>
+                        <li>Comply with target API level and Play Console technical requirements.</li>
+                    </ul>
+                </div>
+
+                <div class="legal-section">
+                    <h2>6. Security & Malware</h2>
+                    <ul>
+                        <li>Do not include malware, spyware, or any hidden background behavior that harms users or devices.</li>
+                        <li>Use secure third-party libraries and keep dependencies up to date.</li>
+                        <li>Perform testing for common security issues before release.</li>
+                    </ul>
+                </div>
+
+                <div class="legal-section">
+                    <h2>7. Store Listing & Metadata</h2>
+                    <ul>
+                        <li>Provide accurate app title, short and full descriptions, and screenshots that reflect the app's experience.</li>
+                        <li>Do not use irrelevant keywords or attempt to manipulate ranking with misleading metadata.</li>
+                        <li>Comply with content rating requirements and provide appropriate target age information.</li>
+                    </ul>
+                </div>
+
+                <div class="legal-section">
+                    <h2>8. Targeted Audience & Children</h2>
+                    <ul>
+                        <li>If the app is directed to children or contains content for children, follow the Families policy and COPPA requirements where applicable.</li>
+                        <li>Separate content and ads appropriately when targeting minors.</li>
+                    </ul>
+                </div>
+
+                <div class="legal-section">
+                    <h2>9. Compliance, Review & Appeals</h2>
+                    <ul>
+                        <li>Address any Play Console policy warnings promptly and follow Google's remediation guidance.</li>
+                        <li>When submitting appeals, provide concise evidence and remediation steps taken.</li>
+                    </ul>
+                </div>
+
+                <div class="legal-section">
+                    <h2>10. Developer Responsibilities</h2>
+                    <ul>
+                        <li>Maintain an up-to-date contact email and privacy policy URL in the Play Console.</li>
+                        <li>Keep the app and backend services compliant with applicable laws and platform rules.</li>
+                        <li>Monitor user feedback and crash reports to quickly resolve issues that may lead to policy violations.</li>
+                    </ul>
+                </div>
+
+                <div class="legal-section">
+                    <h2>Contact & Support</h2>
+                    <p>For questions about publishing or policy compliance:</p>
+                    <p><strong>Email:</strong> apps-support@sriox.com</p>
+                    <p><strong>Play Store Contact:</strong> Use the Google Play Console support channels for developer account issues.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section footer-logo-section">
+                    <img src="assets/icons/vid.gif" alt="Sriox Animated Logo" class="footer-logo">
+                    <p>Innovative digital solutions for modern businesses. Smart, Rapid, Innovative.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="terms.html">Terms</a></li>
+                        <li><a href="intern-policy.html">Intern Policies</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Sriox Technologies. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
