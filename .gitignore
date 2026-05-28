@@ -62,3 +62,9 @@ debug-*.html
 firebase-test.js
 firebase-terminal-test.mjs
 firebase-rest-test.js
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+!.env.example
