@@ -26,6 +26,7 @@ Disallow: /debug-firebase.html
 Disallow: /admin-setup.html
 
 # Disallow configuration and sensitive files
+Allow: /app-ads.txt
 Disallow: /*.js$
 Disallow: /*.json$
 Disallow: /*.md$
